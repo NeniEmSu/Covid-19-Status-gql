@@ -1,7 +1,7 @@
 <template>
   <section id="hero">
     <div class="w-50">
-      <h1>Hi i'm COVID-19 disease caused by the novel coronavirus, cannot be called “lethal” as the lethality is 3,4%</h1>
+      <h1>Hi i'm COVID-19 a disease caused by the novel coronavirus, I could not be called “lethal” as the lethality is 3,4%</h1>
     </div>
     <svg
       id="Layer_1"
@@ -58,15 +58,17 @@
 #hero{
   display: flex;
   width: 100vw;
-  height: 100vh;
-  margin-top: -120px;
+
+  /* max-height: calc(100vh -100px);
+  min-height: 60em; */
+  height: calc(100vh - 80px);
 
   justify-content: center;
   align-items: center;
 }
 
 .covid-logo {
-  animation: 1s appear, spin 10000ms linear infinite;
+  animation: 1s appear, spin 15000ms linear infinite;
   margin: auto;
   width: 200px;
 }
@@ -78,9 +80,11 @@
 @keyframes appear {
   0% {
     opacity: 0;
+    transform:scale(0%);
   }
   100% {
     opacity: 1;
+    transform:scale(100%);
   }
 }
 </style>

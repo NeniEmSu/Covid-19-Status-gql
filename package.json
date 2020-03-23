@@ -1,7 +1,7 @@
 {
   "name": "covid-19-status-gql",
   "version": "1.0.0",
-  "description": "My majestic Nuxt.js project",
+  "description": "Covid-19 status information pulled from gql api and some other sources.",
   "author": "Neni Emmanuel",
   "private": true,
   "scripts": {
@@ -36,6 +36,10 @@
     "@vue/test-utils": "^1.0.0-beta.27",
     "babel-jest": "^24.1.0",
     "jest": "^24.1.0",
-    "vue-jest": "^4.0.0-0"
+    "vue-jest": "^4.0.0-0",
+    "node-sass": "^4.13.0",
+    "sass-loader": "^8.0.0",
+    "stylus": "^0.54.7",
+    "stylus-loader": "^3.0.2"
   }
 }

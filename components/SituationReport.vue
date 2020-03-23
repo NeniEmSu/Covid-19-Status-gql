@@ -25,7 +25,7 @@
       <strong>
         <template v-if="infectionPercentageDiff">
           <span :class="infectionTrendClass">
-            Number of active cases has {{ infectionTrendMessage }} ({{ (infectionTrendClass === 'text-danger' ? 'up' : 'down') + ' ' + `${infectionPercentageDiff.toFixed(1)}%` }})
+            Number of active cases has {{ infectionTrendMessage }} ({{ (infectionTrendClass === 'red' ? 'up' : 'down') + ' ' + `${infectionPercentageDiff.toFixed(1)}%` }})
           </span>
         </template>
         <template v-else>
@@ -34,26 +34,26 @@
       </strong>
     </p>
     <div class="details">
-      <div class="detail">
-        <img src="~/assets/img/virus.svg">
+      <div class="detail yellow">
+        <i class="fas fa-hospital-alt" />
         <h4>{{ singleCountry.mostRecent.confirmed }}</h4>
         <p>Total Cases</p>
       </div>
 
-      <div class="detail">
-        <img src="~/assets/img/virus.svg">
+      <div class="detail red">
+        <i class="fas fa-ambulance" />
         <h4>{{ `${singleCountry.mostRecent.confirmed - singleCountry.results[singleCountry.results.length - 2].confirmed}` }}</h4>
         <p>New Cases</p>
       </div>
 
-      <div class="detail">
-        <img src="~/assets/img/virus.svg">
+      <div class="detail text-danger">
+        <i class="fas fa-bed" />
         <h4>{{ singleCountry.mostRecent.deaths }}</h4>
         <p>Deaths</p>
       </div>
 
-      <div class="detail">
-        <img src="~/assets/img/virus.svg">
+      <div class="detail green">
+        <i class="fas fa-running" />
         <h4>{{ singleCountry.mostRecent.recovered }}</h4>
         <p>Recovered</p>
       </div>
@@ -65,8 +65,6 @@
 
 <script>
 import gql from 'graphql-tag'
-// import singleCountry from '~/gql/country'
-import results from '~/gql/country'
 
 export default {
 
@@ -77,14 +75,6 @@ export default {
   },
 
   apollo: {
-    // singleCountry: {
-    //   prefetch: true,
-    //   query: singleCountry
-    // },
-    results: {
-      prefetch: true,
-      query: results
-    },
     allCountries: {
       query: gql`
       query getAllCountries{
@@ -150,7 +140,7 @@ export default {
     },
 
     infectionTrendClass () {
-      return this.infectionTrend > 0 ? 'text-danger' : this.infectionTrend < 0 ? 'text-success' : ''
+      return this.infectionTrend > 0 ? 'red' : this.infectionTrend < 0 ? 'green' : ''
     }
   }
 }
@@ -188,7 +178,23 @@ h2 span{
     margin: 20px 0;
 }
 
-img{
+img {
     width: 120px;
+}
+
+.details .detail i{
+  font-size: 80px;
+}
+
+.green{
+  color: #50cd8a;
+}
+
+.red{
+  color: #f64a8f;
+}
+
+.yellow{
+  color: #fdb01a;
 }
 </style>
