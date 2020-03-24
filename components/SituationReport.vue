@@ -4,7 +4,19 @@
       COVID-19 Situation Report for {{ singleCountry.name }}<br>
       <span>{{ singleCountry.mostRecent.date }}</span>
     </h2>
-    <div style="display: flex; justify-content: center;">
+    <p>
+      <strong>
+        <template v-if="infectionPercentageDiff">
+          <span :class="infectionTrendClass">
+            Number of active cases has {{ infectionTrendMessage }} ({{ (infectionTrendClass === 'red' ? 'up' : 'down') + ' ' + `${infectionPercentageDiff.toFixed(1)}%` }})
+          </span>
+        </template>
+        <template v-else>
+          Number of active cases remains unchaged
+        </template>
+      </strong>
+    </p>
+    <div class="country-select">
       <select id="country" v-model="selectedCountry">
         <option :value="null">
           Worldwide
@@ -21,39 +33,35 @@
         </option>
       </select>
     </div>
-    <p>
-      <strong>
-        <template v-if="infectionPercentageDiff">
-          <span :class="infectionTrendClass">
-            Number of active cases has {{ infectionTrendMessage }} ({{ (infectionTrendClass === 'red' ? 'up' : 'down') + ' ' + `${infectionPercentageDiff.toFixed(1)}%` }})
-          </span>
-        </template>
-        <template v-else>
-          Number of active cases remains unchaged
-        </template>
-      </strong>
-    </p>
     <div class="details">
       <div class="detail yellow">
-        <i class="fas fa-hospital-alt" />
+        <div class="icon-container ">
+          <i class="fas fa-hospital-alt" />
+        </div>
         <h4>{{ singleCountry.mostRecent.confirmed }}</h4>
         <p>Total Cases</p>
       </div>
 
       <div class="detail red">
-        <i class="fas fa-ambulance" />
+        <div class="icon-container ">
+          <i class="fas fa-ambulance" />
+        </div>
         <h4>{{ `${singleCountry.mostRecent.confirmed - singleCountry.results[singleCountry.results.length - 2].confirmed}` }}</h4>
         <p>New Cases</p>
       </div>
 
       <div class="detail text-danger">
-        <i class="fas fa-bed" />
+        <div class="icon-container ">
+          <i class="fas fa-bed" />
+        </div>
         <h4>{{ singleCountry.mostRecent.deaths }}</h4>
         <p>Deaths</p>
       </div>
 
       <div class="detail green">
-        <i class="fas fa-running" />
+        <div class="icon-container ">
+          <i class="fas fa-running" />
+        </div>
         <h4>{{ singleCountry.mostRecent.recovered }}</h4>
         <p>Recovered</p>
       </div>
@@ -146,23 +154,29 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
-.situation{
+<style lang="scss" scoped>
+.situation {
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align:center;
 }
-h2{
-    margin-top: 30px;
-    margin-bottom: 30px;
+
+h2 {
+    margin-top: 0;
+    font-weight: 600;
+    color: #2b2350;
 }
 
-h2 span{
-    font-size: 1rem;
-    margin-bottom: 30px;
+h2 span {
+    font-size: 1.5rem;
+
+    margin-top: 0;
+    font-weight: 600;
+    color: #2b2350;
 }
-.details{
+
+.details {
     display: flex;
     justify-content: center;
     text-align:center;
@@ -170,31 +184,68 @@ h2 span{
     margin-bottom: 30px;
 }
 
-.details .detail{
+.details .detail {
     margin: 0 auto;
 }
 
-.details .detail h4{
-    margin: 20px 0;
+.details .detail h4 {
+  color: inherit;
 }
 
-img {
-    width: 120px;
+.details .detail i {
+  font-size: 25px;
+   margin-bottom: 40px;
 }
 
-.details .detail i{
-  font-size: 80px;
-}
-
-.green{
+.green {
   color: #50cd8a;
 }
 
-.red{
+.red {
   color: #f64a8f;
 }
 
-.yellow{
+.yellow {
   color: #fdb01a;
 }
+
+.icon-container {
+    border-radius: 10px;
+    height: 60px;
+    width: 60px;
+    line-height: 68px;
+    background: rgba(112, 82, 251, 0.141);
+    margin: 0 auto 43px;
+}
+
+.green .icon-container {
+    background: rgba(80, 205, 138, 0.141);
+}
+
+.red .icon-container {
+    background: rgba(246, 74, 143, 0.141);
+}
+
+.yellow .icon-container {
+    background: rgba(253, 176, 26, 0.141);
+}
+
+select {
+    color: #161f27;
+    background-color: rgb(231, 226, 226);
+    font-size: inherit;
+    margin-right: 6px;
+    margin-bottom: 6px;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    outline: none;
+}
+
+.country-select{
+  margin-bottom: 80px;
+  display: flex;
+  justify-content: center;
+}
+
 </style>

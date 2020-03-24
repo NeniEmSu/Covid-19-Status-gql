@@ -1,90 +1,218 @@
 <template>
-  <section id="hero">
-    <div class="w-50">
-      <h1>Hi i'm COVID-19 a disease caused by the novel coronavirus, I could not be called “lethal” as the lethality is 3,4%</h1>
-    </div>
-    <svg
-      id="Layer_1"
-      class="covid-logo"
-      enable-background="new 0 0 512 512"
-      height="512"
-      viewBox="0 0 512 512"
-      width="512"
-      xmlns="http://www.w3.org/2000/svg"
+  <section id="hero" class="row">
+    <b-modal
+      id="modal-1"
+      size="lg"
+      header-bg-variant="dark"
+      header-text-variant="light"
+      body-bg-variant="dark"
+      class="text-danger"
+      hide-footer
+      title="Learn how to stay safe"
     >
-      <g>
-        <path d="m474.396 181.951-48.65 13.036c-8.002 2.144-12.75 10.369-10.606 18.371 2.219 8.281 10.652 12.676 18.371 10.606l48.65-13.036.347 1.296c2.219 8.281 10.652 12.676 18.371 10.606 8.002-2.144 12.75-10.369 10.606-18.371l-8.459-31.569c-2.145-8.002-10.365-12.752-18.371-10.606-8.002 2.144-12.75 10.369-10.606 18.371z" fill="#821eb4" />
-        <path d="m500.879 289.165c-7.72-2.07-16.152 2.326-18.371 10.606l-.347 1.296-48.65-13.036c-7.72-2.07-16.152 2.326-18.371 10.606-2.144 8.002 2.604 16.227 10.606 18.371l48.65 13.036-.347 1.296c-2.144 8.002 2.604 16.227 10.606 18.371 8.006 2.146 16.227-2.604 18.371-10.606l8.459-31.569c2.144-8.002-2.604-16.227-10.606-18.371z" fill="#821eb4" />
-        <path d="m11.121 222.831c7.72 2.07 16.152-2.326 18.371-10.606l.347-1.296 48.65 13.036c7.72 2.07 16.152-2.326 18.371-10.606 2.144-8.002-2.604-16.227-10.606-18.371l-48.65-13.036.347-1.296c2.144-8.002-2.604-16.227-10.606-18.371-8.006-2.146-16.227 2.604-18.371 10.606l-8.459 31.569c-2.144 8.002 2.604 16.227 10.606 18.371z" fill="#b450c8" />
-        <g>
-          <path d="m339.106 8.974-31.569-8.459c-8.003-2.145-16.228 2.605-18.371 10.606-2.144 8.002 2.604 16.227 10.606 18.371l1.296.347-13.036 48.65c-2.144 8.002 2.604 16.227 10.606 18.371 8.314 2.228 16.314-2.928 18.371-10.606l13.036-48.65 1.296.347c8.314 2.228 16.314-2.928 18.371-10.606 2.144-8.002-2.604-16.227-10.606-18.371z" fill="#821eb4" />
-          <path d="m393.711 139.502 35.614-35.614.949.949c5.856 5.857 15.355 5.859 21.213 0 5.858-5.858 5.858-15.355 0-21.213l-23.11-23.11c-5.857-5.858-15.355-5.858-21.213 0s-5.858 15.355 0 21.213l.949.949-35.614 35.614c-5.858 5.858-5.858 15.355 0 21.213 5.855 5.856 15.354 5.859 21.212-.001z" fill="#821eb4" /><g fill="#b450c8">
-            <path d="m210.932 29.84 1.296-.347c8.002-2.144 12.75-10.369 10.606-18.371-2.143-8.002-10.368-12.752-18.37-10.607l-31.569 8.459c-8.002 2.144-12.75 10.369-10.606 18.371 2.057 7.679 10.057 12.835 18.371 10.606l1.296-.347 13.036 48.65c2.057 7.679 10.057 12.835 18.371 10.606 8.002-2.144 12.75-10.369 10.606-18.371z" />
-            <path d="m103.888 82.676.949-.949c5.858-5.858 5.858-15.355 0-21.213-5.857-5.858-15.355-5.858-21.213 0l-23.11 23.11c-5.858 5.858-5.858 15.355 0 21.213 5.858 5.859 15.357 5.857 21.213 0l.949-.949 35.614 35.614c5.858 5.859 15.357 5.857 21.213 0 5.858-5.858 5.858-15.355 0-21.213z" />
+      <div class="embed-responsive embed-responsive-16by9">
+        <video id="gossVideo" class="embed-responsive-item" controls="controls" poster="http://www.gossettmktg.com/video/dangot.png">
+          <source src="http://www.gossettmktg.com/video/dangot.mp4" type="video/mp4">
+          <source src="http://www.gossettmktg.com/video/dangot.webm" type="video/webm">
+          <source src="http://www.gossettmktg.com/video/dangot.ogv" type="video/ogg">
+          <object type="application/x-shockwave-flash" data="https://releases.flowplayer.org/swf/flowplayer-3.2.1.swf" width="353" height="190">
+            <param name="movie" value="https://releases.flowplayer.org/swf/flowplayer-3.2.1.swf">
+            <param name="allowFullScreen" value="true">
+            <param name="wmode" value="transparent">
+            <param name="flashVars" value="config={'playlist':['http%3A%2F%2Fwww.gossettmktg.com%2Fvideo%2Fdangot.png',{'url':'http%3A%2F%2Fwww.gossettmktg.com%2Fvideo%2Fdangot.mp4','autoPlay':false}]}">
+            <img alt="Big Buck Bunny" src="http://www.gossettmktg.com/video/dangot.png" width="353" height="190" title="No video playback capabilities, please download the video below">
+          </object>
+        </video>
+      </div>
+    </b-modal>
+    <div class="text-details col-4">
+      <p class="super-heading">
+        188+ Countries Are Effected By
+      </p>
+      <h1>CORONA</h1>
+      <p class="explanation">
+        The Virus was first reported in wuhan, Hubel china on 17 November 2019, and on 11 March 2020,the world healtch organization (WHO) Declared the outbreak a pandmic.
+      </p>
+    </div>
+    <div class="offset-1" />
+    <div class="image-section col-7">
+      <div class="img-container">
+        <img src="~/assets/img/6316.png" alt="">
+        <svg
+          v-b-modal.modal-1
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          width="105"
+          height="105"
+          viewBox="0 0 105 105"
+        >
+          <defs>
+            <filter
+              id="Oval"
+              x="0"
+              y="0"
+              width="105"
+              height="105"
+              filterUnits="userSpaceOnUse"
+            >
+              <feOffset dy="5" input="SourceAlpha" />
+              <feGaussianBlur stdDeviation="5" result="blur" />
+              <feFlood flood-color="#475cd6" />
+              <feComposite operator="in" in2="blur" />
+              <feComposite in="SourceGraphic" />
+            </filter>
+          </defs>
+          <g id="Play" transform="translate(15 10)">
+            <g transform="matrix(1, 0, 0, 1, -15, -10)" filter="url(#Oval)">
+              <circle
+                id="Oval-2"
+                data-name="Oval"
+                cx="37.5"
+                cy="37.5"
+                r="37.5"
+                transform="translate(15 10)"
+                fill="#fece00"
+              />
+            </g>
+            <g id="_48px_button-play" data-name="48px_button-play" transform="translate(31 25)">
+              <path id="Path" d="M.692,26A.688.688,0,0,1,0,25.316V.684A.683.683,0,0,1,.383.072a.7.7,0,0,1,.725.065L17.723,12.453a.679.679,0,0,1,0,1.095L1.108,25.863A.694.694,0,0,1,.692,26Z" fill="#fff" />
+            </g>
           </g>
-        </g>
-        <path d="m37.604 330.045 48.65-13.036c8.002-2.144 12.75-10.369 10.606-18.371-2.219-8.281-10.652-12.676-18.371-10.606l-48.65 13.036-.347-1.296c-2.219-8.281-10.652-12.676-18.371-10.606-8.002 2.144-12.75 10.369-10.606 18.371l8.459 31.569c2.145 8.002 10.365 12.752 18.371 10.606 8.002-2.144 12.75-10.369 10.606-18.371z" fill="#b450c8" />
-        <g>
-          <path d="m331.341 474.048-1.296.347-13.036-48.65c-2.057-7.679-10.057-12.835-18.371-10.606-8.002 2.144-12.75 10.369-10.606 18.371l13.036 48.65-1.296.347c-8.002 2.144-12.75 10.369-10.606 18.371 2.144 8.001 10.368 12.751 18.371 10.606l31.569-8.459c8.002-2.144 12.75-10.369 10.606-18.371-2.057-7.678-10.057-12.834-18.371-10.606z" fill="#821eb4" />
-          <path d="m430.273 407.163-.949.949-35.614-35.614c-5.858-5.859-15.357-5.857-21.213 0-5.858 5.858-5.858 15.355 0 21.213l35.614 35.614-.949.949c-5.858 5.858-5.858 15.355 0 21.213 5.857 5.858 15.355 5.858 21.213 0l23.11-23.11c5.858-5.858 5.858-15.355 0-21.213-5.857-5.861-15.356-5.858-21.212-.001z" fill="#821eb4" />
-          <g fill="#b450c8">
-            <path d="m213.361 415.139c-8.314-2.228-16.314 2.928-18.371 10.606l-13.036 48.65-1.296-.347c-8.314-2.228-16.314 2.928-18.371 10.606-2.144 8.002 2.604 16.227 10.606 18.371l31.569 8.459c8.003 2.145 16.228-2.605 18.371-10.606 2.144-8.002-2.604-16.227-10.606-18.371l-1.296-.347 13.036-48.65c2.145-8.002-2.604-16.227-10.606-18.371z" />
-            <path d="m118.289 372.498-35.614 35.614-.949-.949c-5.856-5.857-15.355-5.859-21.213 0-5.858 5.858-5.858 15.355 0 21.213l23.11 23.11c5.857 5.858 15.355 5.858 21.213 0s5.858-15.355 0-21.213l-.949-.949 35.614-35.614c5.858-5.858 5.858-15.355 0-21.213-5.855-5.856-15.354-5.859-21.212.001z" />
-          </g>
-        </g>
-        <circle cx="256" cy="256" fill="#dff473" r="194.757" />
-        <path d="m256 450.757v-389.514c107.389 0 194.757 87.368 194.757 194.757s-87.368 194.757-194.757 194.757z" fill="#8ee26b" />
-        <g clip-rule="evenodd" fill-rule="evenodd">
-          <circle cx="256" cy="143.533" fill="#8ee26b" r="15" />
-          <circle cx="256" cy="368.467" fill="#8ee26b" r="15" />
-          <circle cx="223.867" cy="288.133" fill="#8ee26b" r="15" />
-          <circle cx="288.133" cy="288.133" fill="#00a08c" r="15" />
-          <circle cx="288.133" cy="223.867" fill="#00a08c" r="15" />
-          <circle cx="223.867" cy="223.867" fill="#8ee26b" r="15" />
-          <circle cx="368.467" cy="256" fill="#00a08c" r="15" />
-          <circle cx="143.533" cy="256" fill="#8ee26b" r="15" />
-          <circle cx="335.526" cy="176.478" fill="#00a08c" r="15" />
-          <circle cx="176.474" cy="335.53" fill="#8ee26b" r="15" />
-          <circle cx="335.526" cy="335.53" fill="#00a08c" r="15" />
-          <circle cx="176.474" cy="176.478" fill="#8ee26b" r="15" />
-        </g>
-        <path d="m271 368.467c0-8.28-6.721-15-15-15v30c8.279 0 15-6.72 15-15z" fill="#00a08c" />
-        <path d="m271 143.533c0-8.28-6.721-15-15-15v30c8.279 0 15-6.72 15-15z" fill="#00a08c" />
-      </g>
-    </svg>
+        </svg>
+        <h2>COVID - <span>19</span></h2>
+        <p>Learn how to stay safe</p>
+      </div>
+    </div>
   </section>
 </template>
-<style lang="css" scoped>
+
+<script>
+export default {
+  data () {
+    return {
+      info: 'Hi i\'m COVID-19 a disease caused by the novel coronavirus, I could not be called “lethal” as the lethality is 3,4%'
+    }
+  }
+}
+</script>
+<style lang="scss" scoped>
+@import url(//db.onlinewebfonts.com/c/23a52005216dca8d403521d06834f924?family=AvenirNextW10-Medium);
 #hero{
   display: flex;
   width: 100vw;
 
-  /* max-height: calc(100vh -100px);
-  min-height: 60em; */
-  height: calc(100vh - 80px);
+  height: auto;
 
   justify-content: center;
   align-items: center;
 }
 
-.covid-logo {
-  animation: 1s appear, spin 15000ms linear infinite;
-  margin: auto;
-  width: 200px;
+.text-details {
+  width: 300px;
+  p.super-heading {
+    font-family: 'AvenirNext-Medium';
+    font-weight: normal;
+    font-size: 20px;
+    text-align: left;
+    color: #ebedfa;
+
+  }
+
+  h1 {
+
+    font-family: 'Gilroy-ExtraBold';
+    font-weight: normal;
+    font-size: 110px;
+    text-align: left;
+    color: #fffefe;
+
+  }
+
+  p.explanation {
+
+    font-family: 'AvenirNext-Medium';
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 30px;
+    text-align: left;
+    color: #ebedfa;
+
+  }
 }
 
-@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
-@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
-@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+.image-section{
 
-@keyframes appear {
-  0% {
-    opacity: 0;
-    transform:scale(0%);
+.img-container{
+
+  border-radius: 50%;
+
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  text-align: center;
+
+  width: 540px;
+  height: 540px;
+  background: linear-gradient(#5268e7 0%, #3e54d2 100%);
+  border: 1px solid #707070;
+
+  padding: calc((540px - 360px) / 2);
+
+  img{
+    height: 360px;
+    width: 360px;
+
+    border-radius: 50%;
+    border: 2px solid;
+
+    border-top-color: transparent;
+    border-right-color: #fece00;
+    border-bottom: transparent;
+    border-left-color: #fece00;
   }
-  100% {
-    opacity: 1;
-    transform:scale(100%);
+
+  svg{
+    width: 75px;
+    height: 75px;
+
+    position: absolute;
+    top: 73%;
+    left: 25%;
+
+    cursor: pointer;
+    outline: none;
   }
-}
+
+    h2{
+      font-family: 'Gilroy-ExtraBold';
+    font-weight: normal;
+    font-size: 34px;
+    text-align: left;
+
+    position: absolute;
+    top: 50%;
+    right: -30px;
+
+    transform: rotate(90deg);
+    span{
+      color: #fece00;
+    }
+
+    }
+    p{
+      font-family: 'AvenirNext-Medium';
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 34px;
+    text-align: left;
+    color: #fff;
+
+    position: absolute;
+    top: 84%;
+    left: 30%;
+
+    }
+    }
+    }
 </style>

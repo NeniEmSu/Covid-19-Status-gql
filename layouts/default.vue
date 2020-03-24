@@ -37,16 +37,17 @@ html {
   padding: 0;
 }
 
+@font-face {
+  font-family: 'Gilroy-ExtraBold';
+  src: url("~assets/fonts/Gilroy-ExtraBold.otf") format("opentype");
+}
+
 body{
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Gilroy-ExtraBold", "Poppins", sans-serif;
   font-size: 16px;
-  color: #797687;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
+  color: #FEFEFE;
+  background-color: #5268E7;
+
   overflow-x: hidden;
   box-sizing: border-box;
   margin: 0;
@@ -55,7 +56,6 @@ body{
 }
 
 h1,h2,h3,h4,h4,h5,h6{
-  margin-bottom: 10px;
-  color: #2b2350;
+  color: #FFFEFE;
 }
 </style>
