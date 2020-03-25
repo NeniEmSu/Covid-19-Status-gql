@@ -29,7 +29,7 @@ export default {
   ],
 
   buildModules: [
-
+    '@nuxtjs/moment',
     '@nuxtjs/eslint-module',
     '@nuxtjs/stylelint-module'
   ],

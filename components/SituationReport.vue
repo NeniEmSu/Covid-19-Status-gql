@@ -1,16 +1,47 @@
 <template>
-  <section id="stats" class="situation  container">
+  <section
+    id="stats"
+    class="situation  container"
+  >
     <div class="world-wide">
       <div class="death">
-        <h4>{{ `${aggregated[1].deaths}+` }}</h4>
+        <h4 v-if="$fetchState.pending">
+          Fetching data...
+        </h4>
+        <h4 v-else-if="$fetchState.error">
+          Error while fetching data: {{ $fetchState.error.message }}
+        </h4>
+        <h4 v-else>
+          <span v-if="worldwide.deaths !== undifined">{{ `${worldwide.deaths.toLocaleString()}+` }}</span>
+          <span v-else>{{ `${aggregated[1].deaths.toLocaleString()}+` }}</span>
+        </h4>
         <p>Deaths Worldwide</p>
       </div>
       <div class="confirmed">
-        <h4>{{ `${aggregated[1].confirmed}+` }}</h4>
+        <h4 v-if="$fetchState.pending">
+          Fetching data...
+        </h4>
+        <h4 v-else-if="$fetchState.error">
+          Error while fetching data: {{ $fetchState.error.message }}
+        </h4>
+        <h4 v-else>
+          <span v-if="worldwide.cases !== undifined">{{ `${worldwide.cases.toLocaleString()}+` }}</span>
+          <span v-else>{{ `${aggregated[1].confirmed.toLocaleString()}+` }}</span>
+        </h4>
+
         <p>Confirmed Cases</p>
       </div>
       <div class="recovered">
-        <h4>{{ `${aggregated[1].recovered}+` }}</h4>
+        <h4 v-if="$fetchState.pending">
+          Fetching data...
+        </h4>
+        <h4 v-else-if="$fetchState.error">
+          Error while fetching data: {{ $fetchState.error.message }}
+        </h4>
+        <h4 v-else>
+          <span v-if="worldwide.recovered !== undifined">{{ `${worldwide.recovered.toLocaleString()}+` }}</span>
+          <span v-else>{{ `${aggregated[1].recovered.toLocaleString()}+` }}</span>
+        </h4>
         <p>Recoveries</p>
       </div>
       <div class="live-update">
@@ -20,7 +51,8 @@
             LIVE UPDATE
           </h2>
         </div>
-        <p>This might take several minutes to be updated,since Health Promotion Bureau is issuing verified data from reliable sources.</p>
+        <h6>{{ $moment(worldwide.updated).format('LLLL') }}</h6>
+        <p>Updates might take a while, as Health Promotion Bureau is verifying data from reliable sources.</p>
       </div>
     </div>
 
@@ -137,11 +169,21 @@ export default {
   components: {
     AnimatedNumber
   },
+
+  async fetch () {
+    const response = await fetch('https://corona.lmao.ninja/all')
+    const data = await response.json()
+    this.worldwide = data
+  },
+
+  fetchOnServer: false,
+
   data () {
     return {
       selectedCountry: 'Ukraine',
       value: 1000,
-      animationSpeed: 1000
+      animationSpeed: 1000,
+      worldwide: []
     }
   },
 
@@ -243,9 +285,7 @@ export default {
     }
   },
   methods: {
-    formatToPrice (value) {
-      return `R$ ${value.toFixed(2)}`
-    }
+
   }
 }
 </script>
@@ -268,16 +308,16 @@ export default {
 
   margin-bottom: 80px;
 
-  @media screen and (max-width: 986px){
+  @media screen and (max-width: 986px) {
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 5px;
   }
 
-  @media screen and (max-width: 768px){
+  @media screen and (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media screen and (max-width: 425px){
+  @media screen and (max-width: 425px) {
     grid-template-columns: repeat(1, 1fr);
   }
 
@@ -313,7 +353,7 @@ export default {
   .live-update {
     display: flex;
     justify-content: center;
-    text-align: center;
+    text-align: left;
     flex-direction: column;
     .heading {
       display: flex;
@@ -326,7 +366,7 @@ export default {
         background: #ff3e3e;
         border-radius: 50%;
 
-        margin: auto 10px auto;
+        margin: auto 5px auto 0px;
       }
 
       h2 {
@@ -337,6 +377,14 @@ export default {
         color: #fffefe;
 
         margin: auto 0;
+      }
+
+      h6 {
+        font-family: AvenirNext-DemiBold;
+        font-weight: normal;
+        font-size: 20px;
+        text-align: left;
+        color: #fffefe;
       }
 
       p {
@@ -368,7 +416,7 @@ h2 span {
   justify-content: center;
   text-align: center;
 
-  @media screen and (max-width: 425px){
+  @media screen and (max-width: 425px) {
     display: grid;
     text-align: center;
     justify-content: center;

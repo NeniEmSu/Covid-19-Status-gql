@@ -87,7 +87,7 @@ html {
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "Gilroy-ExtraBold" "Poppins", sans-serif;
   font-size: 16px;
   color: #fefefe;
   background-color: #5268e7;
@@ -122,7 +122,7 @@ h4,
 h4,
 h5,
 h6 {
-  font-family: "Gilroy-ExtraBold" "Poppins", sans-serif;
+  font-family: "Gilroy-ExtraBold", "Poppins", sans-serif;
   color: #fffefe;
 }
 
