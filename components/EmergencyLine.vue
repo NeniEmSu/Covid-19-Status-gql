@@ -1,5 +1,9 @@
 <template>
-  <section class="newsletter" data-bg-image="media/background/map-bg.jpg" style="background-image: url(&quot;media/background/map-bg.jpg&quot;);">
+  <section
+    class="newsletter"
+    data-bg-image="media/background/map-bg.jpg"
+    style="background-image: url(&quot;media/background/map-bg.jpg&quot;);"
+  >
     <div class="container my-auto">
       <div class="row align-items-center">
         <div class="col-lg-8">
@@ -15,7 +19,8 @@
 
         <div class="col-lg-4">
           <div class="">
-            <a href="tel:0 800 505 201">0 800 505 201&nbsp;&nbsp;&nbsp;<i class="fas fa-phone" /></a>
+            <a href="tel:0 800 505 201">0 800 505 201&nbsp;&nbsp;&nbsp;
+              <i class="fas fa-phone" /></a>
           </div>
         </div>
       </div>
@@ -23,17 +28,24 @@
   </section>
 </template>
 
-<style lang="css" scoped>
-.newsletter{
+<style lang="scss" scoped>
+.newsletter {
   height: 200px;
   width: 100vw;
 
-  margin:50px 0;
-
-  background-color: #7ee8fa;
-  background-image: linear-gradient(315deg, #7ee8fa 0%, #80ff72 74%);
+  margin: 50px 0;
 
   display: flex;
   justify-content: center;
+
+  a {
+    color: #fffefe;
+    text-decoration: none;
+
+    padding: 10px 25px;
+    border-radius: 12px;
+    border: 5px solid rgba(255, 255, 255, 0.28);
+    box-shadow: 0px 8px 25px #4056d4;
+  }
 }
 </style>

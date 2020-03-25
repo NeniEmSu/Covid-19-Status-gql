@@ -1,5 +1,29 @@
 <template>
   <section class="situation  container">
+    <div class="world-wide">
+      <div class="death">
+        <h4>{{ `${aggregated[1].deaths}+` }}</h4>
+        <p>Deaths Worldwide</p>
+      </div>
+      <div class="confirmed">
+        <h4>{{ `${aggregated[1].confirmed}+` }}</h4>
+        <p>Confirmed Cases</p>
+      </div>
+      <div class="recovered">
+        <h4>{{ `${aggregated[1].recovered}+` }}</h4>
+        <p>Recoveries</p>
+      </div>
+      <div class="live-update">
+        <div class="heading">
+          <div class="pulse" />
+          <h2>
+            LIVE UPDATE
+          </h2>
+        </div>
+        <p>This might take several minutes to be updated,since Health Promotion Bureau is issuing verified data from reliable sources.</p>
+      </div>
+    </div>
+
     <h2>
       COVID-19 Situation Report for {{ singleCountry.name }}<br>
       <span>{{ singleCountry.mostRecent.date }}</span>
@@ -8,7 +32,7 @@
       <strong>
         <template v-if="infectionPercentageDiff">
           <span :class="infectionTrendClass">
-            Number of active cases has {{ infectionTrendMessage }} ({{ (infectionTrendClass === 'red' ? 'up' : 'down') + ' ' + `${infectionPercentageDiff.toFixed(1)}%` }})
+            Number of active cases has {{ infectionTrendMessage }} ({{ `${infectionPercentageDiff.toFixed(1)}%` }})
           </span>
         </template>
         <template v-else>
@@ -17,11 +41,17 @@
       </strong>
     </p>
     <div class="country-select">
-      <select id="country" v-model="selectedCountry">
+      <select
+        id="country"
+        v-model="selectedCountry"
+      >
         <option :value="null">
           Worldwide
         </option>
-        <option value="" disabled>
+        <option
+          value=""
+          disabled
+        >
           ---
         </option>
         <option
@@ -38,56 +68,94 @@
         <div class="icon-container ">
           <i class="fas fa-hospital-alt" />
         </div>
-        <h4>{{ singleCountry.mostRecent.confirmed }}</h4>
+        <h4>
+          <animated-number
+            :value="singleCountry.mostRecent.confirmed"
+            :format-value="value => Math.floor(value)"
+            :duration="animationSpeed"
+          />
+        </h4>
         <p>Total Cases</p>
+      </div>
+
+      <div class="detail blue">
+        <div class="icon-container ">
+          <i class="fas fa-ambulance" />
+        </div>
+        <h4>
+          <animated-number
+            :value="`${singleCountry.mostRecent.confirmed - singleCountry.results[singleCountry.results.length - 2].confirmed}`"
+            :format-value="value => Math.floor(value)"
+            :duration="animationSpeed"
+            :delay="1000"
+          />
+        </h4>
+        <p>New Cases</p>
+        <small :class="infectionTrendClass">{{ (infectionTrendClass === 'red' ? 'More Cases' : infectionTrendClass === 'green' ? 'Less Cases' : '') }}</small>
       </div>
 
       <div class="detail red">
         <div class="icon-container ">
-          <i class="fas fa-ambulance" />
-        </div>
-        <h4>{{ `${singleCountry.mostRecent.confirmed - singleCountry.results[singleCountry.results.length - 2].confirmed}` }}</h4>
-        <p>New Cases</p>
-      </div>
-
-      <div class="detail text-danger">
-        <div class="icon-container ">
           <i class="fas fa-bed" />
         </div>
-        <h4>{{ singleCountry.mostRecent.deaths }}</h4>
+        <h4>
+          <animated-number
+            :value="singleCountry.mostRecent.deaths"
+            :format-value="value => Math.floor(value)"
+            :duration="animationSpeed"
+            :delay="2000"
+          />
+        </h4>
         <p>Deaths</p>
+        <small :class="singleCountry.mostRecent.deaths - singleCountry.results[singleCountry.results.length - 2].deaths < 1 ? 'green' : ''">{{ `+ ${singleCountry.mostRecent.deaths - singleCountry.results[singleCountry.results.length - 2].deaths}` }}</small>
       </div>
 
       <div class="detail green">
         <div class="icon-container ">
           <i class="fas fa-running" />
         </div>
-        <h4>{{ singleCountry.mostRecent.recovered }}</h4>
+        <h4>
+          <animated-number
+            :value="singleCountry.mostRecent.recovered"
+            :format-value="value => Math.floor(value)"
+            :duration="animationSpeed"
+            :delay="3000"
+          />
+        </h4>
         <p>Recovered</p>
+        <small>{{ `+ ${singleCountry.mostRecent.recovered - singleCountry.results[singleCountry.results.length - 2].recovered}` }}</small>
       </div>
     </div>
-
-    <p>This might take several minutes to be updated,since Health Promotion Bureau is issuing verified data from reliable sources.</p>
   </section>
 </template>
 
 <script>
 import gql from 'graphql-tag'
+import AnimatedNumber from 'animated-number-vue'
 
 export default {
-
+  components: {
+    AnimatedNumber
+  },
   data () {
     return {
-      selectedCountry: 'Ukraine'
+      selectedCountry: 'Ukraine',
+      value: 1000,
+      animationSpeed: 1000
     }
   },
 
   apollo: {
     allCountries: {
       query: gql`
-      query getAllCountries{
-        allCountries: countries{
+      query getAllCountries {
+        allCountries: countries {
           name
+          mostRecent {
+            confirmed
+            deaths
+            recovered
+          }
         }
       }
       `
@@ -102,6 +170,7 @@ export default {
             confirmed
             deaths
             recovered
+            growthRate
           }
           mostRecent {
             date(format: "yyyy - MM - dd")
@@ -124,6 +193,25 @@ export default {
   },
 
   computed: {
+
+    aggregated () {
+      const aggregated = {}
+      Object.keys(this.allCountries).forEach((index) => {
+        Object.keys(this.allCountries[index]).forEach((mostRecent) => {
+          if (!aggregated[mostRecent]) {
+            aggregated[mostRecent] = { ...this.allCountries[index][mostRecent] }
+          } else {
+            aggregated[mostRecent].confirmed += this.allCountries[index][mostRecent].confirmed
+            aggregated[mostRecent].deaths += this.allCountries[index][mostRecent].deaths
+            aggregated[mostRecent].recovered += this.allCountries[index][mostRecent].recovered
+          }
+        })
+      })
+
+      return Object.keys(aggregated).map((key) => {
+        return aggregated[key]
+      })
+    },
 
     infectionPercentageDiff () {
       if (this.singleCountry.results.length > 1) {
@@ -148,7 +236,15 @@ export default {
     },
 
     infectionTrendClass () {
-      return this.infectionTrend > 0 ? 'red' : this.infectionTrend < 0 ? 'green' : ''
+      if (this.singleCountry.results.length > 1) {
+        return this.singleCountry.results[this.singleCountry.results.length - 1].growthRate >= this.singleCountry.results[this.singleCountry.results.length - 2].growthRate ? 'red' : this.singleCountry.results[this.singleCountry.results.length - 1].growthRate < this.singleCountry.results[this.singleCountry.results.length - 2].growthRate ? 'green' : ''
+      }
+      return ''
+    }
+  },
+  methods: {
+    formatToPrice (value) {
+      return `R$ ${value.toFixed(2)}`
     }
   }
 }
@@ -156,96 +252,183 @@ export default {
 
 <style lang="scss" scoped>
 .situation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+
+  margin-bottom: 120px;
+}
+
+.world-wide {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: center;
+  text-align: center;
+
+  margin-bottom: 80px;
+
+  .death,
+  .confirmed,
+  .recovered {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    text-align:center;
+    text-align: center;
+    flex-direction: column;
+
+    width: 240px;
+    height: 180px;
+    border-radius: 12px;
+    border: 5px solid rgba(255, 255, 255, 0.28);
+    box-shadow: 0px 8px 25px #4056d4;
+
+    margin: 0 auto;
+  }
+
+  .death {
+    background: #f42850;
+  }
+
+  .confirmed {
+    background: #0841d5;
+  }
+
+  .recovered {
+    background: #1cb142;
+  }
+
+  .live-update {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    .heading {
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      margin-bottom: 1rem;
+      .pulse {
+        width: 20px;
+        height: 20px;
+        background: #ff3e3e;
+        border-radius: 50%;
+
+        margin: auto 10px auto;
+      }
+
+      h2 {
+        font-family: "Gilroy";
+        font-weight: normal;
+        font-size: 24px;
+        text-align: left;
+        color: #fffefe;
+
+        margin: auto 0;
+      }
+
+      p {
+        font-family: "AvenirNext-Medium";
+        font-weight: normal;
+        font-size: 18px;
+        line-height: 30px;
+        text-align: left;
+        color: #ebedfa;
+      }
+    }
+  }
 }
 
 h2 {
-    margin-top: 0;
-    font-weight: 600;
-    color: #2b2350;
+  margin-top: 0;
+  font-weight: 600;
 }
 
 h2 span {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 
-    margin-top: 0;
-    font-weight: 600;
-    color: #2b2350;
+  margin-top: 0;
+  font-weight: 600;
 }
 
 .details {
-    display: flex;
-    justify-content: center;
-    text-align:center;
-
-    margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }
 
 .details .detail {
-    margin: 0 auto;
+  margin: 0 auto;
 }
 
 .details .detail h4 {
-  color: inherit;
+  color: #fffefe;
 }
 
 .details .detail i {
   font-size: 25px;
-   margin-bottom: 40px;
+  margin-bottom: 40px;
 }
 
 .green {
-  color: #50cd8a;
+  // color: #50cd8a;
+  color: #26dd54;
 }
 
 .red {
-  color: #f64a8f;
+  // color: #f64a8f;
+  color: #ff3e3e;
 }
 
 .yellow {
-  color: #fdb01a;
+  // color: #fdb01a;
+  color: #fece00;
+}
+
+.blue {
+  color: #0841d5;
 }
 
 .icon-container {
-    border-radius: 10px;
-    height: 60px;
-    width: 60px;
-    line-height: 68px;
-    background: rgba(112, 82, 251, 0.141);
-    margin: 0 auto 43px;
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+  line-height: 68px;
+  background: rgba(112, 82, 251, 0.241);
+  margin: 0 auto 43px;
 }
 
 .green .icon-container {
-    background: rgba(80, 205, 138, 0.141);
+  background: rgba(38, 221, 84, 0.241);
+  // rgba(80, 205, 138, 0.141);
 }
 
 .red .icon-container {
-    background: rgba(246, 74, 143, 0.141);
+  background: rgba(246, 74, 143, 0.241);
 }
 
 .yellow .icon-container {
-    background: rgba(253, 176, 26, 0.141);
+  background: rgba(253, 176, 26, 0.241);
+}
+
+.blue .icon-container {
+  background: rgba(8, 65, 213, 0.241);
 }
 
 select {
-    color: #161f27;
-    background-color: rgb(231, 226, 226);
-    font-size: inherit;
-    margin-right: 6px;
-    margin-bottom: 6px;
-    padding: 10px;
-    border: none;
-    border-radius: 6px;
-    outline: none;
+  color: #161f27;
+  background-color: rgb(231, 226, 226);
+  font-size: inherit;
+  margin-right: 6px;
+  margin-bottom: 6px;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  outline: none;
 }
 
-.country-select{
+.country-select {
   margin-bottom: 80px;
   display: flex;
   justify-content: center;
 }
-
 </style>
