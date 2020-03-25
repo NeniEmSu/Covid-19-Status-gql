@@ -22,6 +22,7 @@ export default {
   loading: { color: '#fff' },
 
   css: [
+    'normalize-scss/sass/_normalize.scss'
   ],
 
   plugins: [
@@ -34,6 +35,7 @@ export default {
   ],
 
   modules: [
+    'vue-scrollto/nuxt',
     '@nuxtjs/apollo',
     'bootstrap-vue/nuxt',
     '@nuxtjs/axios',

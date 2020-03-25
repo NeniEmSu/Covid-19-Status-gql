@@ -2,14 +2,22 @@
   <footer>
     <div class="container end">
       <p class="designer">
-        Design By <span>Pixency</span>
+        Design By <span> <a
+          href="https://dribbble.com/Mashok"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Pixency</a> </span>
       </p>
       <p class="logo">
         COVID-<span>19</span>
       </p>
       <p class="coder">
-        &copy;   {{ new Date().getFullYear() }} —
-        <span>NeniEmSu</span>
+        &copy; {{ new Date().getFullYear() }} —
+        <span> <a
+          href="https://github.com/cryptodoct0r"
+          target="_blank"
+          rel="noopener noreferrer"
+        >NeniEmSu</a></span>
       </p>
     </div>
   </footer>
@@ -38,7 +46,8 @@ footer {
 
 p {
   margin: auto 0;
-  &.designer,&.coder {
+  &.designer,
+  &.coder {
     font-family: AvenirNext-Medium;
     font-weight: normal;
     font-size: 20px;

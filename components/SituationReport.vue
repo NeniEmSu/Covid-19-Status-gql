@@ -1,5 +1,5 @@
 <template>
-  <section class="situation  container">
+  <section id="stats" class="situation  container">
     <div class="world-wide">
       <div class="death">
         <h4>{{ `${aggregated[1].deaths}+` }}</h4>

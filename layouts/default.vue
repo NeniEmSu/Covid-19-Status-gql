@@ -4,8 +4,17 @@
     <div class="container hero-wraper">
       <TheHero />
       <nuxt-link
+        v-scroll-to="{
+          el: '#stats',
+          container: 'body',
+          duration: 500,
+          easing: 'linear',
+          offset: -20,
+          force: true,
+          cancelable: true,
+        }"
         class="scroll-to"
-        to="/"
+        to=""
       >
         <!-- <div>
           scroll
@@ -78,7 +87,7 @@ html {
 }
 
 body {
-  font-family: "Gilroy-ExtraBold", "Poppins", sans-serif;
+  font-family:  "Poppins", sans-serif;
   font-size: 16px;
   color: #fefefe;
   background-color: #5268e7;
@@ -113,7 +122,12 @@ h4,
 h4,
 h5,
 h6 {
+  font-family: "Gilroy-ExtraBold" "Poppins", sans-serif;
   color: #fffefe;
+}
+
+a {
+  color: #fece00;
 }
 
 .container.hero-wraper {
@@ -129,6 +143,8 @@ h6 {
     position: absolute;
     left: 0;
     top: 85%;
+
+    text-decoration: none;
 
     .chevron-container {
       position: relative;
@@ -158,7 +174,7 @@ h6 {
       top: 0;
       height: 100%;
       width: 51%;
-      background: whitesmoke;
+      background: rgb(139, 159, 255);
     }
     .chevron:before {
       left: 0;
@@ -189,6 +205,7 @@ h6 {
 
     .chevron-container div.text {
       transform: rotate(90deg);
+      margin-left: 2px;
 
       text-decoration: none;
     }
