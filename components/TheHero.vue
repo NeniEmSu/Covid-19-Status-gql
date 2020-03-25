@@ -14,55 +14,14 @@
       title="Learn how to stay safe"
     >
       <div class="embed-responsive embed-responsive-16by9">
-        <video
-          id="gossVideo"
-          class="embed-responsive-item"
-          controls="controls"
-          poster="http://www.gossettmktg.com/video/dangot.png"
-        >
-          <source
-            src="http://www.gossettmktg.com/video/dangot.mp4"
-            type="video/mp4"
-          >
-          <source
-            src="http://www.gossettmktg.com/video/dangot.webm"
-            type="video/webm"
-          >
-          <source
-            src="http://www.gossettmktg.com/video/dangot.ogv"
-            type="video/ogg"
-          >
-          <object
-            type="application/x-shockwave-flash"
-            data="https://releases.flowplayer.org/swf/flowplayer-3.2.1.swf"
-            width="353"
-            height="190"
-          >
-            <param
-              name="movie"
-              value="https://releases.flowplayer.org/swf/flowplayer-3.2.1.swf"
-            >
-            <param
-              name="allowFullScreen"
-              value="true"
-            >
-            <param
-              name="wmode"
-              value="transparent"
-            >
-            <param
-              name="flashVars"
-              value="config={'playlist':['http%3A%2F%2Fwww.gossettmktg.com%2Fvideo%2Fdangot.png',{'url':'http%3A%2F%2Fwww.gossettmktg.com%2Fvideo%2Fdangot.mp4','autoPlay':false}]}"
-            >
-            <img
-              alt="Big Buck Bunny"
-              src="http://www.gossettmktg.com/video/dangot.png"
-              width="353"
-              height="190"
-              title="No video playback capabilities, please download the video below"
-            >
-          </object>
-        </video>
+        <iframe
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/1APwq1df6Mw"
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        />
       </div>
     </b-modal>
     <div class="text-details col-4">
