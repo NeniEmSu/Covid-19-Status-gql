@@ -1,6 +1,6 @@
 # Covid-19 Status Using GraphQl apollo and Relevant information about Covid-19
 
-> This Nuxt SSR App with the help of apollo consumes [rlindskog/covid19-graphql](https://github.com/rlindskog/covid19-graphql) that consumes the  [pomber/covid19](https://github.com/pomber/covid19) api to provide a SPA visualization of the dataset across all countries and valuable information on getting through the covid-19 pandemic. 
+> This Nuxt SSR App with the help of apollo consumes [rlindskog/covid19-graphql](https://github.com/rlindskog/covid19-graphql) that consumes the  [pomber/covid19](https://github.com/pomber/covid19) api to provide a SPA visualization of the dataset across all countries and valuable information on getting through the covid-19 pandemic.
 
 It also pull realtime worldwide Data from [NovelCOVID/API](https://github.com/NovelCOVID/API)
 
