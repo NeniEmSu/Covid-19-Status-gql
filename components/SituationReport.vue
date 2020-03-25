@@ -353,8 +353,9 @@ export default {
   .live-update {
     display: flex;
     justify-content: center;
-    text-align: left;
+    text-align: center;
     flex-direction: column;
+    padding: 0 15px;
     .heading {
       display: flex;
       justify-content: center;
@@ -382,9 +383,11 @@ export default {
       h6 {
         font-family: AvenirNext-DemiBold;
         font-weight: normal;
-        font-size: 20px;
+        font-size: 18px;
         text-align: left;
         color: #fffefe;
+
+        margin-bottom: 0;
       }
 
       p {

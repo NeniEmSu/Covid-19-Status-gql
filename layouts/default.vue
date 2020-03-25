@@ -141,7 +141,7 @@ a {
     color: rgb(139, 159, 255);
 
     position: absolute;
-    left: 0;
+    left: 12px;
     top: 85%;
 
     text-decoration: none;

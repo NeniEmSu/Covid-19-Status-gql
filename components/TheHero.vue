@@ -124,14 +124,18 @@ export default {
 @import url(//db.onlinewebfonts.com/c/23a52005216dca8d403521d06834f924?family=AvenirNextW10-Medium);
 #hero {
   display: flex;
-  width: 100vw;
 
+  width: 100vw;
   height: auto;
 
   justify-content: center;
   align-items: center;
 
   margin-bottom: 120px;
+
+  @media screen and (max-width: 768px) {
+      width: auto;
+    }
 }
 
 .text-details {
