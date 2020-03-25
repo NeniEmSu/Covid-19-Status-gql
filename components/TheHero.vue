@@ -24,7 +24,7 @@
         />
       </div>
     </b-modal>
-    <div class="text-details col-4">
+    <div class="text-details col-lg-4 col-md-5">
       <p class="super-heading">
         188+ Countries Are Effected By
       </p>
@@ -33,8 +33,8 @@
         The Virus was first reported in wuhan, Hubel china on 17 November 2019, and on 11 March 2020,the world healtch organization (WHO) Declared the outbreak a pandmic.
       </p>
     </div>
-    <div class="offset-1" />
-    <div class="image-section col-7">
+    <div class="offset-lg-1" />
+    <div class="image-section col-lg-7 col-md-7">
       <div class="img-container">
         <img
           src="~/assets/img/6316.png"
@@ -142,6 +142,10 @@ export default {
     font-size: 20px;
     text-align: left;
     color: #ebedfa;
+
+    @media screen and (max-width: 425px) {
+      font-size: 18px;
+    }
   }
 
   h1 {
@@ -150,6 +154,18 @@ export default {
     font-size: 110px;
     text-align: left;
     color: #fffefe;
+
+    @media screen and (max-width: 1110px) {
+      font-size: 95px;
+    }
+
+    @media screen and (max-width: 768px) {
+      font-size: 90px;
+    }
+
+    @media screen and (max-width: 425px) {
+      font-size: 60px;
+    }
   }
 
   p.explanation {
@@ -159,6 +175,11 @@ export default {
     line-height: 30px;
     text-align: left;
     color: #ebedfa;
+
+    @media screen and (max-width: 425px) {
+      font-size: 16px;
+      line-height: 24px;
+    }
   }
 }
 
@@ -179,6 +200,17 @@ export default {
 
     padding: calc((540px - 360px) / 2);
 
+    @media screen and (max-width: 990px) {
+      width: 260px;
+      height: 260px;
+      background: linear-gradient(#5268e7 0%, #3e54d2 100%);
+      border: 1px solid #707070;
+
+      margin: auto;
+
+      padding: calc((260px - 180px) / 2);
+    }
+
     img {
       height: 360px;
       width: 360px;
@@ -190,6 +222,11 @@ export default {
       border-right-color: #fece00;
       border-bottom: transparent;
       border-left-color: #fece00;
+
+      @media screen and (max-width: 990px) {
+      height: 180px;
+      width: 180px;
+    }
     }
 
     svg {
@@ -202,6 +239,11 @@ export default {
 
       cursor: pointer;
       outline: none;
+
+      @media screen and (max-width: 990px) {
+      width: 35px;
+      height: 35px;
+    }
     }
 
     h2 {
@@ -218,6 +260,12 @@ export default {
       span {
         color: #fece00;
       }
+
+      @media screen and (max-width: 990px) {
+      font-size: 16px;
+
+      right: -15px;
+    }
     }
     p {
       font-family: "AvenirNext-Medium";
@@ -230,6 +278,13 @@ export default {
       position: absolute;
       top: 84%;
       left: 30%;
+
+      @media screen and (max-width: 990px) {
+      font-size: 14px;
+      line-height: 20px;
+
+      left: 25%;
+    }
     }
   }
 }

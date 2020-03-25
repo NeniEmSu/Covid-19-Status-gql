@@ -42,6 +42,11 @@ footer {
 .end {
   display: flex;
   justify-content: space-between;
+
+  @media screen and (max-width: 425px){
+    flex-direction: column;
+    text-align: center;
+  }
 }
 
 p {
@@ -51,7 +56,6 @@ p {
     font-family: AvenirNext-Medium;
     font-weight: normal;
     font-size: 20px;
-    text-align: left;
     color: #fffefe;
     opacity: 0.6;
     span {

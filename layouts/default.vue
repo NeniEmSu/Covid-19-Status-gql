@@ -87,7 +87,7 @@ html {
 }
 
 body {
-  font-family:  "Poppins", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 16px;
   color: #fefefe;
   background-color: #5268e7;
@@ -136,7 +136,7 @@ a {
     font-family: "AvenirNext-DemiBold";
     font-weight: normal;
     font-size: 16px;
-    text-align: left;
+    text-align: center;
     text-transform: uppercase;
     color: rgb(139, 159, 255);
 
@@ -145,6 +145,15 @@ a {
     top: 85%;
 
     text-decoration: none;
+
+    @media screen and (max-width: 990px) {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    @media screen and (max-width: 768px) {
+      top: 95%;
+    }
 
     .chevron-container {
       position: relative;
@@ -160,6 +169,10 @@ a {
       transform: scale3d(0.5, 0.5, 0.5);
       animation: move 3s ease-out infinite;
       margin-top: 60px;
+
+      @media screen and (max-width: 768px) {
+         margin-top: 20px;
+      }
     }
     .chevron:first-child {
       animation: move 3s ease-out 1s infinite;
@@ -208,6 +221,12 @@ a {
       margin-left: 2px;
 
       text-decoration: none;
+
+      @media screen and (max-width: 768px) {
+        transform: rotate(0deg);
+        margin-top: 40px;
+        margin-left: -15px;
+      }
     }
   }
 }

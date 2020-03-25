@@ -268,6 +268,19 @@ export default {
 
   margin-bottom: 80px;
 
+  @media screen and (max-width: 986px){
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 5px;
+  }
+
+  @media screen and (max-width: 768px){
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (max-width: 425px){
+    grid-template-columns: repeat(1, 1fr);
+  }
+
   .death,
   .confirmed,
   .recovered {
@@ -282,7 +295,7 @@ export default {
     border: 5px solid rgba(255, 255, 255, 0.28);
     box-shadow: 0px 8px 25px #4056d4;
 
-    margin: 0 auto;
+    margin: 10px auto;
   }
 
   .death {
@@ -354,6 +367,14 @@ h2 span {
   display: flex;
   justify-content: center;
   text-align: center;
+
+  @media screen and (max-width: 425px){
+    display: grid;
+    text-align: center;
+    justify-content: center;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+  }
 }
 
 .details .detail {
@@ -385,7 +406,8 @@ h2 span {
 }
 
 .blue {
-  color: #0841d5;
+  // color: #0841d5;
+  color: rgb(22, 31, 39);
 }
 
 .icon-container {
@@ -411,7 +433,8 @@ h2 span {
 }
 
 .blue .icon-container {
-  background: rgba(8, 65, 213, 0.241);
+  // background: rgba(8, 65, 213, 0.241);
+  background: rgba(22, 31, 39, 0.241);
 }
 
 select {
