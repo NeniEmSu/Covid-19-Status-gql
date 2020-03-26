@@ -12,7 +12,7 @@
           Error while fetching data: {{ $fetchState.error.message }}
         </h4>
         <h4 v-else>
-          <span v-if="worldwide.deaths !== undifined">{{ `${worldwide.deaths.toLocaleString()}+` }}</span>
+          <span v-if="worldwide.deaths !== null">{{ `${worldwide.deaths.toLocaleString()}+` }}</span>
           <span v-else>{{ `${aggregated[1].deaths.toLocaleString()}+` }}</span>
         </h4>
         <p>Deaths Worldwide</p>
@@ -25,7 +25,7 @@
           Error while fetching data: {{ $fetchState.error.message }}
         </h4>
         <h4 v-else>
-          <span v-if="worldwide.cases !== undifined">{{ `${worldwide.cases.toLocaleString()}+` }}</span>
+          <span v-if="worldwide.cases !== null">{{ `${worldwide.cases.toLocaleString()}+` }}</span>
           <span v-else>{{ `${aggregated[1].confirmed.toLocaleString()}+` }}</span>
         </h4>
 
@@ -39,7 +39,7 @@
           Error while fetching data: {{ $fetchState.error.message }}
         </h4>
         <h4 v-else>
-          <span v-if="worldwide.recovered !== undifined">{{ `${worldwide.recovered.toLocaleString()}+` }}</span>
+          <span v-if="worldwide.recovered !== null">{{ `${worldwide.recovered.toLocaleString()}+` }}</span>
           <span v-else>{{ `${aggregated[1].recovered.toLocaleString()}+` }}</span>
         </h4>
         <p>Recoveries</p>
@@ -77,9 +77,6 @@
         id="country"
         v-model="selectedCountry"
       >
-        <option :value="null">
-          Worldwide
-        </option>
         <option
           value=""
           disabled
@@ -148,14 +145,14 @@
         </div>
         <h4>
           <animated-number
-            :value="singleCountry.mostRecent.recovered"
+            :value="singleCountry.mostRecent.recovered === null ? singleCountry.results[singleCountry.results.length - 2].recovered : singleCountry.mostRecent.recovered"
             :format-value="value => Math.floor(value)"
             :duration="animationSpeed"
             :delay="3000"
           />
         </h4>
         <p>Recovered</p>
-        <small>{{ `+ ${singleCountry.mostRecent.recovered - singleCountry.results[singleCountry.results.length - 2].recovered}` }}</small>
+        <small>{{ `+ ${singleCountry.mostRecent.recovered === null ? singleCountry.results[singleCountry.results.length - 3].recovered : singleCountry.mostRecent.recovered - singleCountry.results[singleCountry.results.length - 2].recovered}` }}</small>
       </div>
     </div>
   </section>
@@ -174,16 +171,25 @@ export default {
     const response = await fetch('https://corona.lmao.ninja/all')
     const data = await response.json()
     this.worldwide = data
+    const location = await fetch('https://freegeoip.app/json/')
+    const userLocation = await location.json()
+    this.selectedCountry = userLocation.country_name
+    const availableCountryCodes = ['ae', 'ar', 'at', 'au', 'be', 'bg', 'br', 'ca', 'ch', 'cn', 'co', 'cu', 'cz', 'de', 'eg', 'fr', 'gb', 'gr', 'hk', 'hu', 'id', 'ie', 'il', 'in', 'it', 'jp', 'kr', 'lt', 'lv', 'ma', 'mx', 'my', 'ng', 'nl', 'no', 'nz', 'ph', 'pl', 'pt', 'ro', 'rs', 'ru', 'sa', 'se', 'sg', 'si', 'sk', 'th', 'tr', 'tw', 'ua', 'us', 've', 'za']
+    const apiKey = `https://newsapi.org/v2/top-headlines?country=${availableCountryCodes.includes(userLocation.country_code.toLowerCase()) ? userLocation.country_code.toLowerCase() || 'us' : 'us'}&q=covid&apiKey=511ae156b57c455cbb56c949021bdb79`
+    const topHeadlines = await fetch(apiKey)
+    const postJson = await topHeadlines.json()
+    this.posts = postJson
   },
 
   fetchOnServer: false,
 
   data () {
     return {
-      selectedCountry: 'Ukraine',
-      value: 1000,
+      selectedCountry: 'Nigeria',
       animationSpeed: 1000,
-      worldwide: []
+      worldwide: [],
+      specificCountry: false,
+      posts: []
     }
   },
 
@@ -284,6 +290,19 @@ export default {
       return ''
     }
   },
+
+  watch: {
+    selectedCountry (newSelectedCountry) {
+      localStorage.selectedCountry = newSelectedCountry
+    }
+  },
+
+  mounted () {
+    if (localStorage.selectedCountry) {
+      this.selectedCountry = localStorage.selectedCountry
+    }
+  },
+
   methods: {
 
   }
@@ -434,6 +453,14 @@ h2 span {
 
 .details .detail h4 {
   color: #fffefe;
+}
+
+.details .detail p {
+  font-family: "Gilroy-ExtraBold", "Poppins", sans-serif;
+}
+.details .detail small {
+ font-family: "Poppins", sans-serif;
+ font-size: 14px;
 }
 
 .details .detail i {

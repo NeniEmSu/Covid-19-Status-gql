@@ -1,8 +1,6 @@
 <template>
   <section
     class="newsletter"
-    data-bg-image="media/background/map-bg.jpg"
-    style="background-image: url(&quot;media/background/map-bg.jpg&quot;);"
   >
     <div class="container my-auto">
       <div class="row align-items-center">
