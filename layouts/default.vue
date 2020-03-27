@@ -79,6 +79,10 @@ html {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+
+  // @media screen and (max-width: 768px) {
+  //   font-size: 14px;
+  // }
 }
 
 @font-face {
@@ -86,8 +90,28 @@ html {
   src: url("~assets/fonts/Gilroy-ExtraBold.otf") format("opentype");
 }
 
+@font-face {
+  font-family: "Gilroy-Light";
+  src: url("~assets/fonts/Gilroy-Light.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "AvenirNext-Bold";
+  src: url("~assets/fonts/AvenirNext-Bold.ttf") format("TrueType");
+}
+
+@font-face {
+  font-family: "AvenirNext-DemiBold";
+  src: url("~assets/fonts/AvenirNext-DemiBold.ttf") format("TrueType");
+}
+
+@font-face {
+  font-family: "AvenirNext-Medium";
+  src: url("~assets/fonts/AvenirNext-Medium.ttf") format("TrueType");
+}
+
 body {
-  font-family: "Gilroy-ExtraBold" "Poppins", sans-serif;
+  font-family: "AvenirNext-Medium", sans-serif;
   font-size: 16px;
   color: #fefefe;
   background-color: #5268e7;
@@ -122,7 +146,7 @@ h4,
 h4,
 h5,
 h6 {
-  font-family: "Gilroy-ExtraBold", "Poppins", sans-serif;
+  font-family: "Gilroy-ExtraBold", sans-serif;
   color: #fffefe;
 }
 

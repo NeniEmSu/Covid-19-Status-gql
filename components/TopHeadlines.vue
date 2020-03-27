@@ -18,7 +18,7 @@
             :src="post.urlToImage"
             alt="6"
           >
-          <small>Date: {{ post.publishedAt }}</small>
+          <small>Date: {{ $moment(post.publishedAt).format('LLLL') }}</small>
           <h3>{{ post.title }}</h3>
           <p>{{ post.description }}</p>
           <a
@@ -58,29 +58,30 @@ export default {
 .topHeadlines {
   width: 100vw;
   height: auto;
-  padding: 80px 0;
-  background: linear-gradient(#5268e7 0%, rgba(62, 84, 210, 0.4) 100%);
+  padding: 5rem 0;
 }
 
-h2{
-  font-family: Gilroy;
-font-weight: normal;
-font-size: 60px;
-text-align: left;
-color: #fffefe;
+h2 {
+  font-weight: normal;
+  font-size: 3.75rem;
+  text-align: left;
+  color: #fffefe;
 
-margin-bottom: 100px;
-
+  margin-bottom: 5.25rem;
 }
 
 .headlinesContent {
   display: grid;
   grid-template-columns: repeat(2, auto);
-  grid-gap: 10px;
+  grid-gap: 20px;
+
+  @media screen and (max-width: 766px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 small {
-  font-family: AvenirNext-DemiBold;
+  font-family: "AvenirNext-DemiBold";
   font-weight: normal;
   font-size: 14px;
   text-align: left;
@@ -92,9 +93,9 @@ small {
   flex-direction: column;
   justify-content: flex-start;
   text-align: left;
-  width: 539px;
-  height: 629px;
-  margin: auto;
+  width: 100%;
+  height: auto;
+  // margin: auto;
 }
 img {
   width: 100%;
@@ -102,20 +103,24 @@ img {
   border-radius: 10px;
   object-fit: cover;
   margin: 0 0 24px 0;
+
+  @media screen and (max-width: 766px) {
+    height: 240px;
+  }
 }
 
 h3 {
-  font-family: AvenirNext-Bold;
+  font-family: "AvenirNext-Bold";
   font-weight: normal;
-  font-size: 27px;
+  font-size: 1.6875rem;
   text-align: left;
   color: #fffefe;
 }
 
 p {
-  font-family: AvenirNext-Medium;
+  font-family: "AvenirNext-Medium";
   font-weight: normal;
-  font-size: 18px;
+  font-size: 1.125rem;
   line-height: 30px;
   text-align: left;
   color: #ebedfa;

@@ -60,6 +60,7 @@ p {
     opacity: 0.6;
     span {
       color: #fece00;
+      font-size: inherit;
     }
   }
   &.logo {
@@ -70,6 +71,7 @@ p {
 
     span {
       color: #fece00;
+      font-size: inherit;
     }
   }
 }

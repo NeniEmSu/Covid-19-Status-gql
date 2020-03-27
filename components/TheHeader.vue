@@ -131,6 +131,7 @@ svg.header-logo {
 
   span {
     color: #fece00;
+    font-size: inherit;
   }
 }
 

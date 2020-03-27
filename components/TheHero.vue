@@ -155,7 +155,7 @@ export default {
   h1 {
     font-family: "Gilroy-ExtraBold";
     font-weight: normal;
-    font-size: 110px;
+    font-size: 6.875rem;
     text-align: left;
     color: #fffefe;
 
@@ -168,7 +168,7 @@ export default {
     }
 
     @media screen and (max-width: 425px) {
-      font-size: 60px;
+      font-size: 3.75rem;
     }
   }
 

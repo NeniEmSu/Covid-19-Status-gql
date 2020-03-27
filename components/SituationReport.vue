@@ -402,15 +402,15 @@ export default {
         margin-bottom: 0;
       }
 
-      p {
+    }
+
+    p {
         font-family: "AvenirNext-Medium";
         font-weight: normal;
         font-size: 18px;
         line-height: 30px;
-        text-align: left;
         color: #ebedfa;
       }
-    }
   }
 }
 
@@ -449,10 +449,9 @@ h2 span {
 }
 
 .details .detail p {
-  font-family: "Gilroy-ExtraBold", "Poppins", sans-serif;
+  font-family: "Gilroy-ExtraBold", sans-serif;
 }
 .details .detail small {
- font-family: "Poppins", sans-serif;
  font-size: 14px;
 }
 
