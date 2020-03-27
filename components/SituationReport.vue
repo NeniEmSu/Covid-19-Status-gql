@@ -174,11 +174,6 @@ export default {
     const location = await fetch('https://freegeoip.app/json/')
     const userLocation = await location.json()
     this.selectedCountry = userLocation.country_name
-    const availableCountryCodes = ['ae', 'ar', 'at', 'au', 'be', 'bg', 'br', 'ca', 'ch', 'cn', 'co', 'cu', 'cz', 'de', 'eg', 'fr', 'gb', 'gr', 'hk', 'hu', 'id', 'ie', 'il', 'in', 'it', 'jp', 'kr', 'lt', 'lv', 'ma', 'mx', 'my', 'ng', 'nl', 'no', 'nz', 'ph', 'pl', 'pt', 'ro', 'rs', 'ru', 'sa', 'se', 'sg', 'si', 'sk', 'th', 'tr', 'tw', 'ua', 'us', 've', 'za']
-    const apiKey = `https://newsapi.org/v2/top-headlines?country=${availableCountryCodes.includes(userLocation.country_code.toLowerCase()) ? userLocation.country_code.toLowerCase() || 'us' : 'us'}&q=covid&apiKey=511ae156b57c455cbb56c949021bdb79`
-    const topHeadlines = await fetch(apiKey)
-    const postJson = await topHeadlines.json()
-    this.posts = postJson
   },
 
   fetchOnServer: false,
@@ -187,9 +182,7 @@ export default {
     return {
       selectedCountry: 'Nigeria',
       animationSpeed: 1000,
-      worldwide: [],
-      specificCountry: false,
-      posts: []
+      worldwide: []
     }
   },
 

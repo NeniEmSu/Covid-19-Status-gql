@@ -2,6 +2,7 @@
   <div>
     <SituationReport />
     <EmergencyLine />
+    <TopHeadlines />
     <section class="container">
       <h2>Flattening the Curve</h2>
       <p>
@@ -122,11 +123,12 @@
 import singleCountry from '~/gql/country'
 import SituationReport from '~/components/SituationReport'
 import EmergencyLine from '~/components/EmergencyLine'
-
+import TopHeadlines from '~/components/TopHeadlines'
 export default {
   components: {
     EmergencyLine,
-    SituationReport
+    SituationReport,
+    TopHeadlines
   },
   apollo: {
     singleCountry: {
