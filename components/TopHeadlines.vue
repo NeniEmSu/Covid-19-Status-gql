@@ -3,7 +3,7 @@
     <div class="container">
       <h2>Latest News From {{ location }}</h2>
       <div>
-        <transition name="fade" :duration="{ enter: 500, leave: 800 }">
+        <transition name="fade" mode="out-in" :duration="{ enter: 1000, leave: 800 }">
           <h4 v-if="$fetchState.pending">
             Fetching posts...
           </h4>
