@@ -2,7 +2,7 @@
   <footer>
     <div class="container end">
       <p class="designer">
-        Design By <span> <a
+        Designed By <span> <a
           href="https://dribbble.com/Mashok"
           target="_blank"
           rel="noopener noreferrer"

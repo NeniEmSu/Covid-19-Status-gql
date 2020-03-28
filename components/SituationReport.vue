@@ -68,7 +68,7 @@
           </span>
         </template>
         <template v-else>
-          Number of active cases remains unchaged
+          Number of active cases remains unchanged
         </template>
       </strong>
     </p>
@@ -376,7 +376,7 @@ export default {
       .pulse {
         width: 20px;
         height: 20px;
-        background: #ff3e3e;
+        background: #FF3E3E;
         border-radius: 50%;
 
         margin: auto 5px auto 0px;
@@ -387,17 +387,17 @@ export default {
         font-weight: normal;
         font-size: 24px;
         text-align: left;
-        color: #fffefe;
+        color: #FFFEFE;
 
         margin: auto 0;
       }
 
       h6 {
-        font-family: AvenirNext-DemiBold;
+        font-family: "AvenirNext-DemiBold";
         font-weight: normal;
         font-size: 18px;
         text-align: left;
-        color: #fffefe;
+        color: #FFFEFE;
 
         margin-bottom: 0;
       }
@@ -409,7 +409,7 @@ export default {
         font-weight: normal;
         font-size: 18px;
         line-height: 30px;
-        color: #ebedfa;
+        color: #EBEDFA;
       }
   }
 }
@@ -445,7 +445,7 @@ h2 span {
 }
 
 .details .detail h4 {
-  color: #fffefe;
+  color: #FFFEFE;
 }
 
 .details .detail p {
@@ -462,17 +462,17 @@ h2 span {
 
 .green {
   // color: #50cd8a;
-  color: #26dd54;
+  color: #26DD54;
 }
 
 .red {
   // color: #f64a8f;
-  color: #ff3e3e;
+  color: #FF3e3e;
 }
 
 .yellow {
   // color: #fdb01a;
-  color: #fece00;
+  color: #FECE00;
 }
 
 .blue {
