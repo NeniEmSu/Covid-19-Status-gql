@@ -1,32 +1,57 @@
 <template>
   <section class="topHeadlines">
     <div class="container">
-      <h2>Latest News</h2>
-      <div class="headlinesContent">
-        <h4 v-if="$fetchState.pending">
-          Fetching posts...
-        </h4>
-        <h4 v-else-if="$fetchState.error">
-          Error while fetching posts: {{ $fetchState.error.message }}
-        </h4>
-        <div
-          v-for="post in posts.articles"
-          :key="post.title"
-          class="blog-card"
-        >
-          <img
-            :src="post.urlToImage"
-            alt="6"
-          >
-          <small>Date: {{ $moment(post.publishedAt).format('LLLL') }}</small>
-          <h3>{{ post.title }}</h3>
-          <p>{{ post.description }}</p>
-          <a
-            :href="post.url"
-            target="_blank"
-            rel="noopener noreferrer"
-          >Read More</a>
-        </div>
+      <h2>Latest News From {{ location }}</h2>
+      <div>
+        <transition name="fade" :duration="{ enter: 500, leave: 800 }">
+          <h4 v-if="$fetchState.pending">
+            Fetching posts...
+          </h4>
+          <h4 v-else-if="$fetchState.error">
+            Error while fetching posts: {{ $fetchState.error.message }}
+          </h4>
+          <div v-else class="headlinesContent">
+            <h4 v-if="posts.totalResults < 1">
+              Unfortunately there are no posts from {{ location }} at the moment
+            </h4>
+            <div
+              v-for="post in posts.articles"
+              v-else
+              :key="post.title"
+              class="blog-card"
+            >
+              <div class="image-container">
+                <img
+                  :src="post.urlToImage"
+                  :alt="post.title"
+                  @error="setFallbackImageUrl"
+                >
+                <a
+                  :href="`https://${post.source.name}`"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <p>Source: {{ post.source.name }}</p></a>
+              </div>
+
+              <small>Date: {{ $moment(post.publishedAt).format('LLLL') }}</small>
+              <a
+                :href="post.url"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <h3>{{ post.title }}</h3>
+              </a>
+              <p>{{ post.description }}</p>
+              <a
+                class="more"
+                :href="post.url"
+                target="_blank"
+                rel="noopener noreferrer"
+              >Read More</a>
+            </div>
+          </div>
+        </transition>
       </div>
     </div>
   </section>
@@ -37,10 +62,12 @@ export default {
   async fetch () {
     const location = await fetch('https://freegeoip.app/json/')
     const userLocation = await location.json()
-    const availableCountryCodes = ['ae', 'ar', 'at', 'au', 'be', 'bg', 'br', 'ca', 'ch', 'cn', 'co', 'cu', 'cz', 'de', 'eg', 'fr', 'gb', 'gr', 'hk', 'hu', 'id', 'ie', 'il', 'in', 'it', 'jp', 'kr', 'lt', 'lv', 'ma', 'mx', 'my', 'ng', 'nl', 'no', 'nz', 'ph', 'pl', 'pt', 'ro', 'rs', 'ru', 'sa', 'se', 'sg', 'si', 'sk', 'th', 'tr', 'tw', 'ua', 'us', 've', 'za']
-    const apiKey = `https://newsapi.org/v2/top-headlines?country=${availableCountryCodes.includes(userLocation.country_code.toLowerCase()) ? userLocation.country_code.toLowerCase() || 'us' : 'us'}&q=covid&pageSize=4&apiKey=511ae156b57c455cbb56c949021bdb79`
+    // const availableCountryCodes = ['ae', 'ar', 'at', 'au', 'be', 'bg', 'br', 'ca', 'ch', 'cn', 'co', 'cu', 'cz', 'de', 'eg', 'fr', 'gb', 'gr', 'hk', 'hu', 'id', 'ie', 'il', 'in', 'it', 'jp', 'kr', 'lt', 'lv', 'ma', 'mx', 'my', 'ng', 'nl', 'no', 'nz', 'ph', 'pl', 'pt', 'ro', 'rs', 'ru', 'sa', 'se', 'sg', 'si', 'sk', 'th', 'tr', 'tw', 'ua', 'us', 've', 'za']
+    // const apiKey = `https://newsapi.org/v2/top-headlines?country=${availableCountryCodes.includes(userLocation.country_code.toLowerCase()) ? userLocation.country_code.toLowerCase() || 'us' : 'us'}&q=covid&pageSize=4&apiKey=511ae156b57c455cbb56c949021bdb79`
+    const apiKey = 'https://newsapi.org/v2/top-headlines?country=ng&q=covid&pageSize=4&apiKey=511ae156b57c455cbb56c949021bdb79'
     const topHeadlines = await fetch(apiKey)
     const postJson = await topHeadlines.json()
+    this.location = userLocation.country_name || 'USA'
     this.posts = postJson
   },
 
@@ -48,7 +75,14 @@ export default {
 
   data () {
     return {
-      posts: []
+      posts: [],
+      location: 'USA'
+    }
+  },
+
+  methods: {
+    setFallbackImageUrl (event) {
+      event.target.src = require(`~/assets/img/${'covidFallback' + Math.floor(Math.random() * (2 - 1) + 1) + '.jpg'}`)
     }
   }
 }
@@ -86,26 +120,44 @@ small {
   font-size: 14px;
   text-align: left;
   color: #fffefe;
+  margin-bottom: 5px;
 }
 
 .blog-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   text-align: left;
   width: 100%;
   height: auto;
-  // margin: auto;
-}
-img {
-  width: 100%;
-  height: 380px;
-  border-radius: 10px;
-  object-fit: cover;
-  margin: 0 0 24px 0;
 
   @media screen and (max-width: 766px) {
-    height: 240px;
+    margin-bottom: 20px;
+  }
+}
+
+.image-container {
+  position: relative;
+  margin: 0 0 24px 0;
+  img {
+    width: 100%;
+    height: 380px;
+    border-radius: 10px;
+    object-fit: cover;
+
+    @media screen and (max-width: 766px) {
+      height: 240px;
+    }
+  }
+
+  p {
+    background-color: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    bottom: 2.5%;
+    right: 5%;
+    padding: 2.5px 5px;
+    border-radius: 5px;
   }
 }
 
@@ -124,5 +176,11 @@ p {
   line-height: 30px;
   text-align: left;
   color: #ebedfa;
+  margin-bottom: 24px;
+}
+
+a.more {
+  position: absolute;
+  bottom: 0px;
 }
 </style>

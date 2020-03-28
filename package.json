@@ -1,7 +1,7 @@
 {
-  "name": "covid-19-status-gql",
+  "name": "i-am-covid-19-status-gql",
   "version": "1.0.0",
-  "description": "Covid-19 status information pulled from gql api and some other sources.",
+  "description": "Covid-19 status information, latest news by country pulled from gql api and some other sources.",
   "author": "Neni Emmanuel",
   "private": true,
   "scripts": {

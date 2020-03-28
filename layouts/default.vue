@@ -16,24 +16,6 @@
         class="scroll-to"
         to=""
       >
-        <!-- <div>
-          scroll
-        </div>
-
-        <svg
-          id="_48px_minimal-down"
-          data-name="48px_minimal-down"
-          xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="10"
-          viewBox="0 0 18 10"
-        >
-          <path
-            id="Path"
-            d="M9,10a.777.777,0,0,1-.557-.236L0,1.139,1.115,0,9,8.055,16.885,0,18,1.139,9.557,9.764A.777.777,0,0,1,9,10Z"
-            fill="#8b9fff"
-          />
-        </svg> -->
         <div class="chevron-container">
           <div class="chevron" />
           <div class="chevron" />
@@ -151,7 +133,12 @@ h6 {
 }
 
 a {
-  color: #fece00;
+  color: rgba(255, 208, 0, 1);
+
+  &:hover{
+    color: rgba(255, 208, 0, 0.85);
+    text-decoration: none;
+  }
 }
 
 .container.hero-wraper {
@@ -253,5 +240,12 @@ a {
       }
     }
   }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>
