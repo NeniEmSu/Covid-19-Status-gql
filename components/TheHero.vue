@@ -26,11 +26,11 @@
     </b-modal>
     <div class="text-details col-lg-4 col-md-5">
       <p class="super-heading">
-        188+ Countries Are Effected By
+        188+ Countries Are Affected By
       </p>
       <h1>CORONA</h1>
       <p class="explanation">
-        The Virus was first reported in wuhan, Hubel china on 17 November 2019, and on 11 March 2020,the world healtch organization (WHO) Declared the outbreak a pandmic.
+        The Virus was first reported in Wuhan, Hubel china on 17 November 2019, and on 11 March 2020,the world health organization (WHO) Declared the outbreak a pandemic.
       </p>
     </div>
     <div class="offset-lg-1" />
@@ -121,7 +121,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import url(//db.onlinewebfonts.com/c/23a52005216dca8d403521d06834f924?family=AvenirNextW10-Medium);
 #hero {
   display: flex;
 
