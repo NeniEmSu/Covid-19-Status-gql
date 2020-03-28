@@ -3,7 +3,7 @@
     <div class="container">
       <h2>Latest News From {{ location }}</h2>
       <div>
-        <transition name="fade" mode="out-in" :duration="{ enter: 1000, leave: 800 }">
+        <transition name="fade" mode="out-in" :duration="{ enter: 500, leave: 500 }">
           <h4 v-if="$fetchState.pending">
             Fetching posts...
           </h4>
@@ -62,9 +62,9 @@ export default {
   async fetch () {
     const location = await fetch('https://freegeoip.app/json/')
     const userLocation = await location.json()
-    // const availableCountryCodes = ['ae', 'ar', 'at', 'au', 'be', 'bg', 'br', 'ca', 'ch', 'cn', 'co', 'cu', 'cz', 'de', 'eg', 'fr', 'gb', 'gr', 'hk', 'hu', 'id', 'ie', 'il', 'in', 'it', 'jp', 'kr', 'lt', 'lv', 'ma', 'mx', 'my', 'ng', 'nl', 'no', 'nz', 'ph', 'pl', 'pt', 'ro', 'rs', 'ru', 'sa', 'se', 'sg', 'si', 'sk', 'th', 'tr', 'tw', 'ua', 'us', 've', 'za']
-    // const apiKey = `https://newsapi.org/v2/top-headlines?country=${availableCountryCodes.includes(userLocation.country_code.toLowerCase()) ? userLocation.country_code.toLowerCase() || 'us' : 'us'}&q=covid&pageSize=4&apiKey=511ae156b57c455cbb56c949021bdb79`
-    const apiKey = 'https://newsapi.org/v2/top-headlines?country=ng&q=covid&pageSize=4&apiKey=511ae156b57c455cbb56c949021bdb79'
+    const availableCountryCodes = ['ae', 'ar', 'at', 'au', 'be', 'bg', 'br', 'ca', 'ch', 'cn', 'co', 'cu', 'cz', 'de', 'eg', 'fr', 'gb', 'gr', 'hk', 'hu', 'id', 'ie', 'il', 'in', 'it', 'jp', 'kr', 'lt', 'lv', 'ma', 'mx', 'my', 'ng', 'nl', 'no', 'nz', 'ph', 'pl', 'pt', 'ro', 'rs', 'ru', 'sa', 'se', 'sg', 'si', 'sk', 'th', 'tr', 'tw', 'ua', 'us', 've', 'za']
+    const apiKey = `https://newsapi.org/v2/top-headlines?country=${availableCountryCodes.includes(userLocation.country_code.toLowerCase()) ? userLocation.country_code.toLowerCase() || 'us' : 'us'}&q=covid&pageSize=4&apiKey=511ae156b57c455cbb56c949021bdb79`
+    // const apiKey = `https://newsapi.org/v2/top-headlines?country=${'us'}&q=covid&pageSize=4&apiKey=511ae156b57c455cbb56c949021bdb79`
     const topHeadlines = await fetch(apiKey)
     const postJson = await topHeadlines.json()
     this.location = userLocation.country_name || 'USA'
