@@ -26,7 +26,7 @@
     </b-modal>
     <div class="text-details col-lg-4 col-md-5">
       <p class="super-heading">
-        188+ Countries Are Affected By
+        188+ Countries Affected By
       </p>
       <h1>CORONA</h1>
       <p class="explanation">
