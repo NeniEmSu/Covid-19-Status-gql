@@ -129,6 +129,7 @@ small {
   flex-direction: column;
   justify-content: flex-start;
   text-align: left;
+  max-width: 560px;
   width: 100%;
   height: auto;
 

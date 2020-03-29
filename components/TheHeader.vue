@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="container">
-      <div class="header-inner">
+      <nuxt-link class="header-inner" to="/">
         <svg
           id="Layer_1"
           class="header-logo"
@@ -26,16 +26,15 @@
             <path d="m403.844 129.369 25.481-25.481.949.949c5.856 5.857 15.355 5.859 21.213 0 5.858-5.858 5.858-15.355 0-21.213l-23.11-23.11c-5.857-5.858-15.355-5.858-21.213 0s-5.858 15.355 0 21.213l.949.949-25.481 25.48c7.6 6.52 14.693 13.613 21.212 21.213z" />
             <path d="m299.772 29.493 1.296.347-9.3 34.708c9.943 1.853 19.621 4.466 28.975 7.773l9.302-34.716 1.296.347c8.314 2.228 16.314-2.928 18.371-10.606 2.144-8.002-2.604-16.227-10.606-18.371l-31.569-8.459c-8.003-2.145-16.228 2.605-18.371 10.606-2.145 8.002 2.604 16.227 10.606 18.371z" />
           </g>
-        </svg>
-
-        <p>
+        </svg> <p>
           COVID-<span><animated-number
             :value="19"
             :format-value="value => Math.floor(value)"
             :duration="1000"
           /></span>
         </p>
-      </div>
+      </nuxt-link>
+
       <div class="navigation">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -127,6 +126,7 @@ svg.header-logo {
   font-family: "Gilroy-ExtraBold";
   font-weight: normal;
   font-size: 30px;
+  color: #ffffff;
   margin: auto 10px;
 
   span {

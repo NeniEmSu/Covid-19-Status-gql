@@ -1,5 +1,16 @@
 <template>
   <footer>
+    <div class="footer-nav container">
+      <nuxt-link to="/">
+        Home
+      </nuxt-link>
+      <nuxt-link to="/">
+        Charts
+      </nuxt-link>
+      <nuxt-link to="/blog">
+        Blog
+      </nuxt-link>
+    </div>
     <div class="container end">
       <p class="designer">
         Designed By <span> <a
@@ -37,6 +48,16 @@ footer {
   display: flex;
   justify-content: center;
   flex-direction: column;
+}
+
+.footer-nav{
+  a{
+    margin: 0 20px 0 0;
+  }
+
+  .nuxt-link-exact-active {
+    border-bottom: 2px solid coral;
+  }
 }
 
 .end {

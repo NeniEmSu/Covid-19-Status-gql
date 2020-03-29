@@ -1,5 +1,30 @@
 <template>
   <div>
+    <div class="container hero-wraper">
+      <TheHero />
+      <nuxt-link
+        v-scroll-to="{
+          el: '#stats',
+          container: 'body',
+          duration: 500,
+          easing: 'linear',
+          offset: -20,
+          force: true,
+          cancelable: true,
+        }"
+        class="scroll-to"
+        to=""
+      >
+        <div class="chevron-container">
+          <div class="chevron" />
+          <div class="chevron" />
+          <div class="chevron" />
+          <div class="text">
+            Scroll
+          </div>
+        </div>
+      </nuxt-link>
+    </div>
     <SituationReport />
     <EmergencyLine />
     <TopHeadlines />
@@ -121,11 +146,13 @@
 
 <script>
 import singleCountry from '~/gql/country'
+import TheHero from '~/components/TheHero'
 import SituationReport from '~/components/SituationReport'
 import EmergencyLine from '~/components/EmergencyLine'
 import TopHeadlines from '~/components/TopHeadlines'
 export default {
   components: {
+    TheHero,
     EmergencyLine,
     SituationReport,
     TopHeadlines
@@ -154,4 +181,105 @@ export default {
   p {
     margin-bottom: 20px;
   }
+
+  .container.hero-wraper {
+  position: relative;
+  .scroll-to {
+    font-family: "AvenirNext-DemiBold";
+    font-weight: normal;
+    font-size: 16px;
+    text-align: center;
+    text-transform: uppercase;
+    color: rgb(139, 159, 255);
+
+    position: absolute;
+    left: 12px;
+    top: 85%;
+
+    text-decoration: none;
+
+    @media screen and (max-width: 990px) {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    @media screen and (max-width: 768px) {
+      top: 95%;
+    }
+
+    .chevron-container {
+      position: relative;
+      width: 24px;
+      height: 24px;
+      z-index: 16;
+    }
+    .chevron {
+      position: absolute;
+      width: 28px;
+      height: 8px;
+      opacity: 0;
+      transform: scale3d(0.5, 0.5, 0.5);
+      animation: move 3s ease-out infinite;
+      margin-top: 60px;
+
+      @media screen and (max-width: 768px) {
+         margin-top: 20px;
+      }
+    }
+    .chevron:first-child {
+      animation: move 3s ease-out 1s infinite;
+    }
+    .chevron:nth-child(2) {
+      animation: move 3s ease-out 2s infinite;
+    }
+    .chevron:before,
+    .chevron:after {
+      content: " ";
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 51%;
+      background: rgb(139, 159, 255);
+    }
+    .chevron:before {
+      left: 0;
+      transform: skew(0deg, 30deg);
+    }
+    .chevron:after {
+      right: 0;
+      width: 50%;
+      transform: skew(0deg, -30deg);
+    }
+    @keyframes move {
+      25% {
+        opacity: 1;
+      }
+      33% {
+        opacity: 1;
+        transform: translateY(30px);
+      }
+      67% {
+        opacity: 1;
+        transform: translateY(40px);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(55px) scale3d(0.5, 0.5, 0.5);
+      }
+    }
+
+    .chevron-container div.text {
+      transform: rotate(90deg);
+      margin-left: 2px;
+
+      text-decoration: none;
+
+      @media screen and (max-width: 768px) {
+        transform: rotate(0deg);
+        margin-top: 40px;
+        margin-left: -15px;
+      }
+    }
+  }
+}
 </style>

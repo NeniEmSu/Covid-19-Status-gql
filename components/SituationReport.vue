@@ -30,6 +30,7 @@
         </h4>
 
         <p>Confirmed Cases</p>
+        <small>Active Cases {{ (worldwide.cases - worldwide.recovered).toLocaleString() }}</small>
       </div>
       <div class="recovered">
         <h4 v-if="$fetchState.pending">
@@ -43,6 +44,7 @@
           <span v-else>{{ `${aggregated[1].recovered.toLocaleString()}+` }}</span>
         </h4>
         <p>Recoveries</p>
+        <small>{{ `${Math.floor((worldwide.recovered * 100) / worldwide.cases)}% Recovered` }}</small>
       </div>
       <div class="live-update">
         <div class="heading">
@@ -55,106 +57,121 @@
         <p>Updates might take a while, as Health Promotion Bureau is verifying data from reliable sources.</p>
       </div>
     </div>
-
-    <h2>
-      COVID-19 Situation Report for {{ singleCountry.name }}<br>
-      <span>{{ singleCountry.mostRecent.date }}</span>
-    </h2>
-    <p>
-      <strong>
-        <template v-if="infectionPercentageDiff">
+    <template v-if=" singleCountry">
+      <h2>
+        COVID-19 Situation Report for {{ singleCountry.name }}<br>
+        <span>{{ singleCountry.mostRecent.date }}</span>
+      </h2>
+      <p>
+        <strong>
+          <!-- <template v-if="infectionPercentageDiff">
           <span :class="infectionTrendClass">
             Number of active cases has {{ infectionTrendMessage }} ({{ `${infectionPercentageDiff.toFixed(1)}%` }})
           </span>
         </template>
         <template v-else>
           Number of active cases remains unchanged
-        </template>
-      </strong>
-    </p>
-    <div class="country-select">
-      <select
-        id="country"
-        v-model="selectedCountry"
-      >
-        <option
-          value=""
-          disabled
+        </template> -->
+          <b-progress
+            :value="(singleCountry.mostRecent.recovered * 100) / singleCountry.mostRecent.confirmed"
+            variant="success"
+            striped
+            :animated="animate"
+            :precision="2"
+            show-value
+            class="w-25 mx-auto"
+          />
+        </strong>
+      </p>
+    </template>
+
+    <template v-if="allCountries">
+      <div class="country-select">
+        <select
+          id="country"
+          v-model="selectedCountry"
         >
-          ---
-        </option>
-        <option
-          v-for="country in allCountries"
-          :key="country.name"
-          :value="country.name"
-        >
-          {{ country.name }}
-        </option>
-      </select>
-    </div>
-    <div class="details">
-      <div class="detail yellow">
-        <div class="icon-container ">
-          <i class="fas fa-hospital-alt" />
-        </div>
-        <h4>
-          <animated-number
-            :value="singleCountry.mostRecent.confirmed"
-            :format-value="value => Math.floor(value)"
-            :duration="animationSpeed"
-          />
-        </h4>
-        <p>Total Cases</p>
+          <option
+            value=""
+            disabled
+          >
+            ---
+          </option>
+          <option
+            v-for="country in allCountries"
+            :key="country.name"
+            :value="country.name"
+          >
+            {{ country.name }}
+          </option>
+        </select>
       </div>
+    </template>
+    <template v-if="singleCountry">
+      <div class="details">
+        <div class="detail yellow">
+          <div class="icon-container ">
+            <i class="fas fa-hospital-alt" />
+          </div>
+          <h4>
+            <animated-number
+              :value="singleCountry.mostRecent.confirmed"
+              :format-value="value => Math.floor(value).toLocaleString()"
+              :duration="animationSpeed"
+            />
+          </h4>
+          <p>Total Cases</p>
+        </div>
 
-      <div class="detail blue">
-        <div class="icon-container ">
-          <i class="fas fa-ambulance" />
+        <div class="detail blue">
+          <div class="icon-container ">
+            <i class="fas fa-ambulance" />
+          </div>
+          <h4>
+            <animated-number
+              :value="`${singleCountry.mostRecent.confirmed - singleCountry.results[singleCountry.results.length - 2].confirmed}`"
+              :format-value="value => Math.floor(value).toLocaleString()"
+              :duration="animationSpeed"
+              :delay="1000"
+            />
+          </h4>
+          <p>New Cases</p>
+          <small :class="infectionTrendClass">{{ (infectionTrendClass === 'red' ? 'More Cases' : infectionTrendClass === 'green' ? 'Less Cases' : '') }}</small>
         </div>
-        <h4>
-          <animated-number
-            :value="`${singleCountry.mostRecent.confirmed - singleCountry.results[singleCountry.results.length - 2].confirmed}`"
-            :format-value="value => Math.floor(value)"
-            :duration="animationSpeed"
-            :delay="1000"
-          />
-        </h4>
-        <p>New Cases</p>
-        <small :class="infectionTrendClass">{{ (infectionTrendClass === 'red' ? 'More Cases' : infectionTrendClass === 'green' ? 'Less Cases' : '') }}</small>
-      </div>
 
-      <div class="detail red">
-        <div class="icon-container ">
-          <i class="fas fa-bed" />
+        <div class="detail red">
+          <div class="icon-container ">
+            <i class="fas fa-bed" />
+          </div>
+          <h4>
+            <animated-number
+              :value="singleCountry.mostRecent.deaths"
+              :format-value="value => Math.floor(value).toLocaleString()"
+              :duration="animationSpeed"
+              :delay="2000"
+            />
+          </h4>
+          <p>Deaths</p>
+          <small :class="singleCountry.mostRecent.deaths - singleCountry.results[singleCountry.results.length - 2].deaths < 1 ? 'green' : ''">{{ `+ ${singleCountry.mostRecent.deaths - singleCountry.results[singleCountry.results.length - 2].deaths}` }}</small>
         </div>
-        <h4>
-          <animated-number
-            :value="singleCountry.mostRecent.deaths"
-            :format-value="value => Math.floor(value)"
-            :duration="animationSpeed"
-            :delay="2000"
-          />
-        </h4>
-        <p>Deaths</p>
-        <small :class="singleCountry.mostRecent.deaths - singleCountry.results[singleCountry.results.length - 2].deaths < 1 ? 'green' : ''">{{ `+ ${singleCountry.mostRecent.deaths - singleCountry.results[singleCountry.results.length - 2].deaths}` }}</small>
-      </div>
 
-      <div class="detail green">
-        <div class="icon-container ">
-          <i class="fas fa-running" />
+        <div class="detail green">
+          <div class="icon-container ">
+            <i class="fas fa-running" />
+          </div>
+          <h4>
+            <animated-number
+              :value="singleCountry.mostRecent.recovered === null ? singleCountry.results[singleCountry.results.length - 2].recovered : singleCountry.mostRecent.recovered"
+              :format-value="value => Math.floor(value).toLocaleString()"
+              :duration="animationSpeed"
+              :delay="3000"
+            />
+          </h4>
+          <p>Recovered</p>
+          <small>{{ `+ ${singleCountry.mostRecent.recovered === null ? singleCountry.results[singleCountry.results.length - 3].recovered : singleCountry.mostRecent.recovered - singleCountry.results[singleCountry.results.length - 2].recovered}` }}</small>
         </div>
-        <h4>
-          <animated-number
-            :value="singleCountry.mostRecent.recovered === null ? singleCountry.results[singleCountry.results.length - 2].recovered : singleCountry.mostRecent.recovered"
-            :format-value="value => Math.floor(value)"
-            :duration="animationSpeed"
-            :delay="3000"
-          />
-        </h4>
-        <p>Recovered</p>
-        <small>{{ `+ ${singleCountry.mostRecent.recovered === null ? singleCountry.results[singleCountry.results.length - 3].recovered : singleCountry.mostRecent.recovered - singleCountry.results[singleCountry.results.length - 2].recovered}` }}</small>
       </div>
-    </div>
+    </template>
   </section>
 </template>
 
@@ -173,7 +190,7 @@ export default {
     this.worldwide = data
     const location = await fetch('https://freegeoip.app/json/')
     const userLocation = await location.json()
-    this.selectedCountry = userLocation.country_name
+    this.selectedCountry = userLocation.country_name || 'Nigeria'
   },
 
   fetchOnServer: false,
@@ -182,7 +199,8 @@ export default {
     return {
       selectedCountry: 'Nigeria',
       animationSpeed: 1000,
-      worldwide: []
+      worldwide: [],
+      animate: true
     }
   },
 
@@ -226,7 +244,7 @@ export default {
       `,
       variables () {
         return {
-          country: this.selectedCountry
+          country: this.selectedCountry || 'Nigeria'
         }
       }
     }
