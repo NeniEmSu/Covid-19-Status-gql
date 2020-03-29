@@ -4,11 +4,14 @@
       <nuxt-link to="/">
         Home
       </nuxt-link>
-      <nuxt-link to="/">
+      <nuxt-link to="/charts">
         Charts
       </nuxt-link>
       <nuxt-link to="/blog">
         Blog
+      </nuxt-link>
+      <nuxt-link to="/credits">
+        Credits
       </nuxt-link>
     </div>
     <div class="container end">

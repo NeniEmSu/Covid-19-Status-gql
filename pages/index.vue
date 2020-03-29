@@ -211,7 +211,7 @@ export default {
       position: relative;
       width: 24px;
       height: 24px;
-      z-index: 16;
+      z-index: 1;
     }
     .chevron {
       position: absolute;

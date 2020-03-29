@@ -1,7 +1,10 @@
 <template>
   <div>
     <TheHeader />
-    <nuxt />
+    <transition name="fade" mode="out-in">
+      <nuxt />
+    </transition>
+
     <TheFooter />
   </div>
 </template>
@@ -114,7 +117,7 @@ a {
 }
 
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+  transition: opacity 1000ms;
 }
 .fade-enter, .fade-leave-to {
   opacity: 0;
