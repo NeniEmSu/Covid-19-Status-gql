@@ -2,8 +2,95 @@
   <div>
     <div class="container">
       <h1>Blog Posts</h1>
-    </div>
-    <section class="blog-updates">
+      <div class="navigate-to">
+        <nuxt-link
+          v-scroll-to="{
+            el: '#usa',
+            container: 'body',
+            duration: 500,
+            easing: 'linear',
+            offset: -20,
+            force: true,
+            cancelable: true,
+          }"
+          class="scroll-to"
+          to="#usa"
+        >
+          USA
+        </nuxt-link>
+        <nuxt-link
+          v-scroll-to="{
+            el: '#nigeria',
+            container: 'body',
+            duration: 500,
+            easing: 'linear',
+            offset: -20,
+            force: true,
+            cancelable: true,
+          }"
+          class="scroll-to"
+          to="#nigeria"
+        >
+          Nigeria
+        </nuxt-link>
+      </div>
+    </div><section class="blog-updates">
+      <div class="container">
+        <h2>Top Headings From Around the {{ location3 }}</h2>
+        <div>
+          <transition name="fade" mode="out-in" :duration="{ enter: 500, leave: 500 }">
+            <h4 v-if="$fetchState.pending">
+              Fetching posts...
+            </h4>
+            <h4 v-else-if="$fetchState.error">
+              Error while fetching posts: {{ $fetchState.error.message }}
+            </h4>
+            <div v-else class="headlinesContent">
+              <h4 v-if="wwPosts.totalResults < 1">
+                Unfortunately there are no posts from Around the {{ location3 }} at the moment
+              </h4>
+              <div
+                v-for="post in wwPosts.articles"
+                v-else
+                :key="post.title"
+                class="blog-card"
+              >
+                <div class="image-container">
+                  <img
+                    :src="post.urlToImage"
+                    :alt="post.title"
+                    @error="setFallbackImageUrl"
+                  >
+                  <a
+                    :href="`https://${post.source.name}`"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <p>Source: {{ post.source.name }}</p></a>
+                </div>
+
+                <small>Date: {{ $moment(post.publishedAt).format('LLLL') }}</small>
+                <a
+                  :href="post.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <h3>{{ post.title }}</h3>
+                </a>
+                <p>{{ post.description }}</p>
+                <a
+                  class="more"
+                  :href="post.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >Read More</a>
+              </div>
+            </div>
+          </transition>
+        </div>
+      </div>
+    </section>
+    <section id="usa" class="blog-updates">
       <div class="container">
         <h2>Top Headings From {{ location }}</h2>
         <div>
@@ -59,7 +146,7 @@
         </div>
       </div>
     </section>
-    <section class="blog-updates">
+    <section id="nigeria" class="blog-updates">
       <div class="container">
         <h2>Top Headings From {{ location2 }}</h2>
         <div>
@@ -124,6 +211,7 @@ export default {
   },
 
   async fetch () {
+    const wwApiKey = 'https://newsapi.org/v2/top-headlines?q=covid&pageSize=6&apiKey=511ae156b57c455cbb56c949021bdb79'
     const ngApiKey = `https://newsapi.org/v2/top-headlines?country=${'ng'}&q=covid&pageSize=6&apiKey=511ae156b57c455cbb56c949021bdb79`
     const usApiKey = `https://newsapi.org/v2/top-headlines?country=${'us'}&q=covid&pageSize=6&apiKey=511ae156b57c455cbb56c949021bdb79`
     const usTopHeadlines = await fetch(usApiKey)
@@ -132,6 +220,9 @@ export default {
     const ngTopHeadlines = await fetch(ngApiKey)
     const ngpostJson = await ngTopHeadlines.json()
     this.ngPosts = ngpostJson
+    const wwTopHeadlines = await fetch(wwApiKey)
+    const wwpostJson = await wwTopHeadlines.json()
+    this.wwPosts = wwpostJson
   },
 
   fetchOnServer: false,
@@ -140,14 +231,16 @@ export default {
     return {
       usPosts: [],
       ngPosts: [],
+      wwPosts: [],
       location: 'USA',
-      location2: 'Nigeria'
+      location2: 'Nigeria',
+      location3: 'World'
     }
   },
 
   methods: {
     setFallbackImageUrl (event) {
-      event.target.src = require(`~/assets/img/${'covidFallback' + Math.floor(Math.random() * (2 - 1) + 1) + '.jpg'}`)
+      event.target.src = require(`~/assets/img/${'covidFallback' + (Math.floor(Math.random() * 2) + 1) + '.jpg'}`)
     }
   }
 }
@@ -176,6 +269,20 @@ h2 {
   color: #ebedfa;
 
   margin-bottom: 1.5rem;
+}
+
+.navigate-to {
+  a {
+    color: #fffefe;
+    text-decoration: none;
+
+    padding: 10px 25px;
+    border-radius: 12px;
+    border: 5px solid rgba(255, 255, 255, 0.28);
+    box-shadow: 0px 8px 25px #4056d4;
+
+    margin: 20px 20px;
+  }
 }
 
 .headlinesContent {
