@@ -26,6 +26,7 @@ export default {
   ],
 
   plugins: [
+    { src: '@/plugins/chart', ssr: false }
   ],
 
   buildModules: [
