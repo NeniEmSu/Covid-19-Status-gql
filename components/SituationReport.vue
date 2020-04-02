@@ -64,14 +64,6 @@
       </h2>
       <p>
         <strong>
-          <!-- <template v-if="infectionPercentageDiff">
-          <span :class="infectionTrendClass">
-            Number of active cases has {{ infectionTrendMessage }} ({{ `${infectionPercentageDiff.toFixed(1)}%` }})
-          </span>
-        </template>
-        <template v-else>
-          Number of active cases remains unchanged
-        </template> -->
           <b-progress
             :value="(singleCountry.mostRecent.recovered * 100) / singleCountry.mostRecent.confirmed"
             variant="success"
@@ -169,6 +161,43 @@
         <small>{{ `+ ${singleCountry.mostRecent.recovered === null ? singleCountry.results[singleCountry.results.length - 3].recovered : singleCountry.mostRecent.recovered - singleCountry.results[singleCountry.results.length - 2].recovered}` }}</small>
       </div>
     </div>
+
+    <div class="charts">
+      <chartjs-line
+        id="confirmed"
+        :backgroundcolor="confirmedChart.datasets[0].backgroundColor"
+        :bordercolor="confirmedChart.datasets[0].borderColor"
+        :beginzero="beginZero"
+        :bind="true"
+        :responsive="true"
+        :font-color="confirmedChart.datasets[0].borderColor"
+        :data="confirmedChart.datasets[0].data"
+        :datalabel="confirmedChart.datasets[0].label"
+        :labels="confirmedChart.labels"
+      />
+      <chartjs-line
+        id="recovered"
+        :backgroundcolor="recoveredChart.datasets[0].backgroundColor"
+        :bordercolor="recoveredChart.datasets[0].borderColor"
+        :beginzero="beginZero"
+        :bind="true"
+        :responsive="true"
+        :data="recoveredChart.datasets[0].data"
+        :datalabel="recoveredChart.datasets[0].label"
+        :labels="recoveredChart.labels"
+      />
+      <chartjs-line
+        id="deaths"
+        :backgroundcolor="deathChart.datasets[0].backgroundColor"
+        :bordercolor="deathChart.datasets[0].borderColor"
+        :beginzero="beginZero"
+        :bind="true"
+        :responsive="true"
+        :data="deathChart.datasets[0].data"
+        :datalabel="deathChart.datasets[0].label"
+        :labels="deathChart.labels"
+      />
+    </div>
   </section>
 </template>
 
@@ -176,9 +205,20 @@
 import gql from 'graphql-tag'
 import AnimatedNumber from 'animated-number-vue'
 
+const getInitialLegends = () => {
+  const defaults = {
+    confirmed: true,
+    recovered: true,
+    deaths: true,
+    infected: true
+  }
+  return defaults
+}
+
 export default {
   components: {
     AnimatedNumber
+    // LineChart
   },
 
   async fetch () {
@@ -194,10 +234,14 @@ export default {
 
   data () {
     return {
+      bgColor: '#81894e',
+      beginZero: true,
+      borderColor: '#81894e',
       selectedCountry: 'Nigeria',
       animationSpeed: 1000,
       worldwide: [],
-      animate: true
+      animate: true,
+      legends: getInitialLegends()
     }
   },
 
@@ -249,6 +293,120 @@ export default {
   },
 
   computed: {
+
+    options () {
+      return {
+        animation: {
+          duration: this.animationSpeed
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+          onClick: (event, legend) => {
+            const legends = { ...this.legends }
+            switch (legend.text) {
+              case 'Confirmed':
+                legends.confirmed = !legends.confirmed
+                break
+              case 'Recovered':
+                legends.recovered = !legends.recovered
+                break
+              case 'Deaths':
+                legends.deaths = !legends.deaths
+                break
+              case 'Infected *':
+                legends.infected = !legends.infected
+                break
+              default:
+                break
+            }
+            this.legends = legends
+            return false
+          },
+          labels: {
+            fontColor: '#fefefe'
+          },
+          position: 'bottom'
+        },
+        scales: {
+          yAxes: [{
+            type: 'linear',
+            ticks: {
+              precision: 0,
+              fontColor: '#fefefe'
+            }
+          }],
+          xAxes: [{
+            ticks: {
+              fontColor: '#fefefe'
+            }
+          }]
+        }
+      }
+    },
+
+    confirmed () {
+      return this.singleCountry.results.map((stat) => {
+        return stat.confirmed
+      })
+    },
+    deaths () {
+      return this.singleCountry.results.map((stat) => {
+        return stat.deaths
+      })
+    },
+
+    recovered () {
+      return this.singleCountry.results.map((stat) => {
+        return stat.recovered
+      })
+    },
+
+    dates () {
+      return this.singleCountry.results.map((stat) => {
+        return stat.date
+      })
+    },
+
+    confirmedChart () {
+      return {
+        labels: this.dates,
+        datasets: [
+          {
+            label: 'Confirmed',
+            borderColor: '#FECE00',
+            backgroundColor: 'rgba(52,152,221, 0.3)',
+            data: this.confirmed
+          }
+        ]
+      }
+    },
+    recoveredChart () {
+      return {
+        labels: this.dates,
+        datasets: [
+          {
+            label: 'Recovered',
+            borderColor: 'rgb(46,204,119)',
+            backgroundColor: 'rgba(46,204,119, 0.3)',
+            data: this.recovered
+          }
+        ]
+      }
+    },
+    deathChart () {
+      return {
+        labels: this.dates,
+        datasets: [
+          {
+            label: 'Deaths',
+            borderColor: '#FF3e3e',
+            backgroundColor: 'rgba(231,76,51, 0.3)',
+            data: this.deaths
+          }
+        ]
+      }
+    },
 
     aggregated () {
       const aggregated = {}
@@ -402,7 +560,7 @@ export default {
         font-weight: normal;
         font-size: 24px;
         text-align: left;
-        color: #FFFEFE;
+        color: rgb(255, 254, 254);
 
         margin: auto 0;
       }
@@ -538,5 +696,15 @@ select {
   margin-bottom: 80px;
   display: flex;
   justify-content: center;
+}
+
+.charts{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  // justify-content: center;
+  // text-align: center;
+  @media screen and (max-width: 500px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 </style>
