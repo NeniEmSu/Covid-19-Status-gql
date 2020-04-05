@@ -198,6 +198,10 @@
         :labels="deathChart.labels"
       />
     </div>
+
+    <div>
+      <b-table striped hover :items="items" :fields="fields" />
+    </div>
   </section>
 </template>
 
@@ -228,6 +232,29 @@ export default {
     const location = await fetch('https://freegeoip.app/json/')
     const userLocation = await location.json()
     this.selectedCountry = userLocation.country_name || 'Nigeria'
+
+    const requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    }
+
+    fetch('http://coronavirus19.com.ua/ajax/ukraine-stat', requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error))
+  },
+
+  async asyncData ({ app }) {
+    const { data } = await app.$axios.get('https://coronavirus19.com.ua/ajax/ukraine-stat?_=1586118973182',
+      JSON.stringify({
+        sort: { _created: -1 },
+        populate: 1
+      }),
+      {
+        headers: { 'Content-Type': 'application/json' }
+      })
+
+    return { statesInUa: data }
   },
 
   fetchOnServer: false,
@@ -240,8 +267,32 @@ export default {
       selectedCountry: 'Nigeria',
       animationSpeed: 1000,
       worldwide: [],
+      statesInUa: [],
       animate: true,
-      legends: getInitialLegends()
+      legends: getInitialLegends(),
+      fields: [
+        {
+          key: 'last_name',
+          sortable: true
+        },
+        {
+          key: 'first_name',
+          sortable: false
+        },
+        {
+          key: 'age',
+          label: 'Person age',
+          sortable: true,
+          // Variant applies to the whole column, including the header and footer
+          variant: 'danger'
+        }
+      ],
+      items: [
+        { isActive: true, age: 40, first_name: 'Dickerson', last_name: 'Macdonald' },
+        { isActive: false, age: 21, first_name: 'Larsen', last_name: 'Shaw' },
+        { isActive: false, age: 89, first_name: 'Geneva', last_name: 'Wilson' },
+        { isActive: true, age: 38, first_name: 'Jami', last_name: 'Carney' }
+      ]
     }
   },
 

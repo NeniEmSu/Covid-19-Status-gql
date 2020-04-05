@@ -54,7 +54,14 @@ export default {
       redirect: 'follow'
     }
 
-    const response = await fetch('https://corona.lmao.ninja/countries', requestOptions)
+    const response = await fetch('https://corona.lmao.ninja/countries', requestOptions,
+      JSON.stringify({
+        sort: { _created: 1 },
+        populate: 1
+      }),
+      {
+        headers: { 'Content-Type': 'application/json' }
+      })
     const data = await response.json()
     this.results = data
   },
