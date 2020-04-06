@@ -33,10 +33,25 @@
         >
           Nigeria
         </nuxt-link>
+        <nuxt-link
+          v-scroll-to="{
+            el: '#india',
+            container: 'body',
+            duration: 500,
+            easing: 'linear',
+            offset: -20,
+            force: true,
+            cancelable: true,
+          }"
+          class="scroll-to"
+          to="#india"
+        >
+          India
+        </nuxt-link>
       </div>
     </div><section class="blog-updates">
       <div class="container">
-        <h2>Top Headings From Around the {{ location3 }}</h2>
+        <h2>Top Headlines From Around the {{ location3 }}</h2>
         <div>
           <transition name="fade" mode="out-in" :duration="{ enter: 500, leave: 500 }">
             <h4 v-if="$fetchState.pending">
@@ -92,7 +107,7 @@
     </section>
     <section id="usa" class="blog-updates">
       <div class="container">
-        <h2>Top Headings From {{ location }}</h2>
+        <h2>Top Headlines From {{ location }}</h2>
         <div>
           <transition name="fade" mode="out-in" :duration="{ enter: 500, leave: 500 }">
             <h4 v-if="$fetchState.pending">
@@ -148,7 +163,7 @@
     </section>
     <section id="nigeria" class="blog-updates">
       <div class="container">
-        <h2>Top Headings From {{ location2 }}</h2>
+        <h2>Top Headlines From {{ location2 }}</h2>
         <div>
           <transition name="fade" mode="out-in" :duration="{ enter: 500, leave: 500 }">
             <h4 v-if="$fetchState.pending">
@@ -202,6 +217,62 @@
         </div>
       </div>
     </section>
+    <section id="india" class="blog-updates">
+      <div class="container">
+        <h2>Top Headlines From {{ location4 }}</h2>
+        <div>
+          <transition name="fade" mode="out-in" :duration="{ enter: 500, leave: 500 }">
+            <h4 v-if="$fetchState.pending">
+              Fetching posts...
+            </h4>
+            <h4 v-else-if="$fetchState.error">
+              Error while fetching posts: {{ $fetchState.error.message }}
+            </h4>
+            <div v-else class="headlinesContent">
+              <h4 v-if="ngPosts.totalResults < 1">
+                Unfortunately there are no posts from {{ location }} at the moment
+              </h4>
+              <div
+                v-for="post in inPosts.articles"
+                v-else
+                :key="post.title"
+                class="blog-card"
+              >
+                <div class="image-container">
+                  <img
+                    :src="post.urlToImage"
+                    :alt="post.title"
+                    @error="setFallbackImageUrl"
+                  >
+                  <a
+                    :href="`https://${post.source.name}`"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <p>Source: {{ post.source.name }}</p></a>
+                </div>
+
+                <small>Date: {{ $moment(post.publishedAt).format('LLLL') }}</small>
+                <a
+                  :href="post.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <h3>{{ post.title }}</h3>
+                </a>
+                <p>{{ post.description }}</p>
+                <a
+                  class="more"
+                  :href="post.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >Read More</a>
+              </div>
+            </div>
+          </transition>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -214,6 +285,7 @@ export default {
     const wwApiKey = 'https://newsapi.org/v2/top-headlines?q=covid&pageSize=6&apiKey=511ae156b57c455cbb56c949021bdb79'
     const ngApiKey = `https://newsapi.org/v2/top-headlines?country=${'ng'}&q=covid&pageSize=6&apiKey=511ae156b57c455cbb56c949021bdb79`
     const usApiKey = `https://newsapi.org/v2/top-headlines?country=${'us'}&q=covid&pageSize=6&apiKey=511ae156b57c455cbb56c949021bdb79`
+    const inApiKey = `https://newsapi.org/v2/top-headlines?country=${'in'}&q=covid&pageSize=6&apiKey=511ae156b57c455cbb56c949021bdb79`
     const usTopHeadlines = await fetch(usApiKey)
     const postJson = await usTopHeadlines.json()
     this.usPosts = postJson
@@ -223,6 +295,9 @@ export default {
     const wwTopHeadlines = await fetch(wwApiKey)
     const wwpostJson = await wwTopHeadlines.json()
     this.wwPosts = wwpostJson
+    const inTopHeadlines = await fetch(inApiKey)
+    const inpostJson = await inTopHeadlines.json()
+    this.inPosts = inpostJson
   },
 
   fetchOnServer: false,
@@ -232,9 +307,11 @@ export default {
       usPosts: [],
       ngPosts: [],
       wwPosts: [],
+      inPosts: [],
       location: 'USA',
       location2: 'Nigeria',
-      location3: 'World'
+      location3: 'World',
+      location4: 'india'
     }
   },
 

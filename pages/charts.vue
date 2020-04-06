@@ -21,10 +21,10 @@
             :alt="result.country"
           >
           <h3>{{ result.country }}</h3>
-          <p>Confirmed Cases: {{ result.cases.toLocaleString() }} <span>Today: {{ result.todayCases }}</span></p>
+          <p>Confirmed Cases: {{ result.cases.toLocaleString() }} <span>Today: {{ result.todayCases.toLocaleString() }}</span></p>
           <p>Active Cases: {{ result.active.toLocaleString() }}</p>
           <p>Critical Cases: {{ result.critical.toLocaleString() }}</p>
-          <p>Total Deaths: {{ result.deaths.toLocaleString() }} <span>Today: {{ result.todayDeaths }}</span> </p>
+          <p>Total Deaths: {{ result.deaths.toLocaleString() }} <span>Today: {{ result.todayDeaths.toLocaleString() }}</span> </p>
           <p>Recoveries: {{ result.recovered.toLocaleString() }}</p>
 
           <p>Last Updated {{ $moment(result.updated).format('LLLL') }}</p>

@@ -77,7 +77,10 @@
       </p>
     </div>
 
-    <div v-if="allCountries" class="country-select">
+    <div
+      v-if="allCountries"
+      class="country-select"
+    >
       <select
         id="country"
         v-model="selectedCountry"
@@ -98,7 +101,10 @@
       </select>
     </div>
 
-    <div v-if="singleCountry" class="details">
+    <div
+      v-if="singleCountry"
+      class="details"
+    >
       <div class="detail yellow">
         <div class="icon-container ">
           <i class="fas fa-hospital-alt" />
@@ -162,6 +168,15 @@
       </div>
     </div>
 
+    <div class="form-group text-left w-100 mt-3">
+      <label for="timeFrame">Showing patern of Changes for past {{ timeFrame }} days </label>
+      <select id="timeFrame" v-model="timeFrame" class="form-control w-25" name="timeFrame">
+        <option v-for="(item, index) in noOfIncrements" :key="index" :value="item * 5">
+          {{ item * 5 }}
+        </option>
+      </select>
+    </div>
+
     <div class="charts">
       <chartjs-line
         id="confirmed"
@@ -197,10 +212,17 @@
         :datalabel="deathChart.datasets[0].label"
         :labels="deathChart.labels"
       />
-    </div>
-
-    <div>
-      <b-table striped hover :items="items" :fields="fields" />
+      <chartjs-line
+        id="infected"
+        :backgroundcolor="infectedChart.datasets[0].backgroundColor"
+        :bordercolor="infectedChart.datasets[0].borderColor"
+        :beginzero="beginZero"
+        :bind="true"
+        :responsive="true"
+        :data="infectedChart.datasets[0].data"
+        :datalabel="infectedChart.datasets[0].label"
+        :labels="infectedChart.labels"
+      />
     </div>
   </section>
 </template>
@@ -232,16 +254,6 @@ export default {
     const location = await fetch('https://freegeoip.app/json/')
     const userLocation = await location.json()
     this.selectedCountry = userLocation.country_name || 'Nigeria'
-
-    const requestOptions = {
-      method: 'GET',
-      redirect: 'follow'
-    }
-
-    fetch('http://coronavirus19.com.ua/ajax/ukraine-stat', requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error))
   },
 
   async asyncData ({ app }) {
@@ -270,29 +282,7 @@ export default {
       statesInUa: [],
       animate: true,
       legends: getInitialLegends(),
-      fields: [
-        {
-          key: 'last_name',
-          sortable: true
-        },
-        {
-          key: 'first_name',
-          sortable: false
-        },
-        {
-          key: 'age',
-          label: 'Person age',
-          sortable: true,
-          // Variant applies to the whole column, including the header and footer
-          variant: 'danger'
-        }
-      ],
-      items: [
-        { isActive: true, age: 40, first_name: 'Dickerson', last_name: 'Macdonald' },
-        { isActive: false, age: 21, first_name: 'Larsen', last_name: 'Shaw' },
-        { isActive: false, age: 89, first_name: 'Geneva', last_name: 'Wilson' },
-        { isActive: true, age: 38, first_name: 'Jami', last_name: 'Carney' }
-      ]
+      timeFrame: 60
     }
   },
 
@@ -401,6 +391,13 @@ export default {
         return stat.confirmed
       })
     },
+
+    trend () {
+      return this.confirmed.map((confirmed, i) => {
+        return confirmed - (this.deaths[i]) - (this.recovered[i])
+      })
+    },
+
     deaths () {
       return this.singleCountry.results.map((stat) => {
         return stat.deaths
@@ -419,41 +416,63 @@ export default {
       })
     },
 
+    noOfIncrements () {
+      return (Math.ceil(this.dates.length / 5) * 5) / 5
+    },
+
     confirmedChart () {
       return {
-        labels: this.dates,
+        labels: this.dates.slice(this.timeFrame === 0 || this.timeFrame >= this.dates.length - 1 ? 0 : this.dates.length - this.timeFrame, this.dates.length - 1),
+
         datasets: [
           {
             label: 'Confirmed',
             borderColor: '#FECE00',
             backgroundColor: 'rgba(52,152,221, 0.3)',
-            data: this.confirmed
+            data: this.confirmed.slice(this.timeFrame === 0 || this.timeFrame >= this.confirmed.length - 1 ? 0 : this.confirmed.length - this.timeFrame, this.confirmed.length - 1)
           }
         ]
       }
     },
     recoveredChart () {
       return {
-        labels: this.dates,
+        labels: this.dates.slice(this.timeFrame === 0 || this.timeFrame >= this.dates.length - 1 ? 0 : this.dates.length - this.timeFrame, this.dates.length - 1),
+
         datasets: [
           {
             label: 'Recovered',
             borderColor: 'rgb(46,204,119)',
             backgroundColor: 'rgba(46,204,119, 0.3)',
-            data: this.recovered
+            data: this.recovered.slice(this.timeFrame === 0 || this.timeFrame >= this.recovered.length - 1 ? 0 : this.recovered.length - this.timeFrame, this.recovered.length - 1)
           }
         ]
       }
     },
     deathChart () {
       return {
-        labels: this.dates,
+        labels: this.dates.slice(this.timeFrame === 0 || this.timeFrame >= this.dates.length - 1 ? 0 : this.dates.length - this.timeFrame, this.dates.length - 1),
+
         datasets: [
           {
             label: 'Deaths',
             borderColor: '#FF3e3e',
             backgroundColor: 'rgba(231,76,51, 0.3)',
-            data: this.deaths
+            data: this.deaths.slice(this.timeFrame === 0 || this.timeFrame >= this.deaths.length - 1 ? 0 : this.deaths.length - this.timeFrame, this.deaths.length - 1)
+          }
+        ]
+      }
+    },
+
+    infectedChart () {
+      return {
+        labels: this.dates.slice(this.timeFrame === 0 || this.timeFrame >= this.dates.length - 1 ? 0 : this.dates.length - this.timeFrame, this.dates.length - 1),
+        datasets: [
+          {
+            id: 'infected',
+            label: 'Infected *',
+            borderColor: 'rgb(22, 31, 39)',
+            backgroundColor: 'rgba(155,89,187,0.3)',
+            data: this.trend.slice(this.timeFrame === 0 || this.timeFrame >= this.trend.length - 1 ? 0 : this.trend.length - this.timeFrame, this.trend.length - 1)
           }
         ]
       }
@@ -600,7 +619,7 @@ export default {
       .pulse {
         width: 20px;
         height: 20px;
-        background: #FF3E3E;
+        background: #ff3e3e;
         border-radius: 50%;
 
         margin: auto 5px auto 0px;
@@ -621,20 +640,19 @@ export default {
         font-weight: normal;
         font-size: 18px;
         text-align: left;
-        color: #FFFEFE;
+        color: #fffefe;
 
         margin-bottom: 0;
       }
-
     }
 
     p {
-        font-family: "AvenirNext-Medium";
-        font-weight: normal;
-        font-size: 18px;
-        line-height: 30px;
-        color: #EBEDFA;
-      }
+      font-family: "AvenirNext-Medium";
+      font-weight: normal;
+      font-size: 18px;
+      line-height: 30px;
+      color: #ebedfa;
+    }
   }
 }
 
@@ -669,14 +687,14 @@ h2 span {
 }
 
 .details .detail h4 {
-  color: #FFFEFE;
+  color: #fffefe;
 }
 
 .details .detail p {
   font-family: "Gilroy-ExtraBold", sans-serif;
 }
 .details .detail small {
- font-size: 14px;
+  font-size: 14px;
 }
 
 .details .detail i {
@@ -686,17 +704,17 @@ h2 span {
 
 .green {
   // color: #50cd8a;
-  color: #26DD54;
+  color: #26dd54;
 }
 
 .red {
   // color: #f64a8f;
-  color: #FF3e3e;
+  color: #ff3e3e;
 }
 
 .yellow {
   // color: #fdb01a;
-  color: #FECE00;
+  color: #fece00;
 }
 
 .blue {
@@ -749,9 +767,11 @@ select {
   justify-content: center;
 }
 
-.charts{
+.charts {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+  margin-top: 20px;
   // justify-content: center;
   // text-align: center;
   @media screen and (max-width: 500px) {
