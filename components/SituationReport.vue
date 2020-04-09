@@ -422,42 +422,42 @@ export default {
 
     confirmedChart () {
       return {
-        labels: this.dates.slice(this.timeFrame === 0 || this.timeFrame >= this.dates.length - 1 ? 0 : this.dates.length - this.timeFrame, this.dates.length - 1),
+        labels: this.dates.slice(this.timeFrame === 0 || this.timeFrame >= this.dates.length - 1 ? 0 : this.dates.length - this.timeFrame, this.dates.length),
 
         datasets: [
           {
             label: 'Confirmed',
             borderColor: '#FECE00',
             backgroundColor: 'rgba(52,152,221, 0.3)',
-            data: this.confirmed.slice(this.timeFrame === 0 || this.timeFrame >= this.confirmed.length - 1 ? 0 : this.confirmed.length - this.timeFrame, this.confirmed.length - 1)
+            data: this.confirmed.slice(this.timeFrame === 0 || this.timeFrame >= this.confirmed.length - 1 ? 0 : this.confirmed.length - this.timeFrame, this.confirmed.length)
           }
         ]
       }
     },
     recoveredChart () {
       return {
-        labels: this.dates.slice(this.timeFrame === 0 || this.timeFrame >= this.dates.length - 1 ? 0 : this.dates.length - this.timeFrame, this.dates.length - 1),
+        labels: this.dates.slice(this.timeFrame === 0 || this.timeFrame >= this.dates.length - 1 ? 0 : this.dates.length - this.timeFrame, this.dates.length),
 
         datasets: [
           {
             label: 'Recovered',
             borderColor: 'rgb(46,204,119)',
             backgroundColor: 'rgba(46,204,119, 0.3)',
-            data: this.recovered.slice(this.timeFrame === 0 || this.timeFrame >= this.recovered.length - 1 ? 0 : this.recovered.length - this.timeFrame, this.recovered.length - 1)
+            data: this.recovered.slice(this.timeFrame === 0 || this.timeFrame >= this.recovered.length - 1 ? 0 : this.recovered.length - this.timeFrame, this.recovered.length)
           }
         ]
       }
     },
     deathChart () {
       return {
-        labels: this.dates.slice(this.timeFrame === 0 || this.timeFrame >= this.dates.length - 1 ? 0 : this.dates.length - this.timeFrame, this.dates.length - 1),
+        labels: this.dates.slice(this.timeFrame === 0 || this.timeFrame >= this.dates.length - 1 ? 0 : this.dates.length - this.timeFrame, this.dates.length),
 
         datasets: [
           {
             label: 'Deaths',
             borderColor: '#FF3e3e',
             backgroundColor: 'rgba(231,76,51, 0.3)',
-            data: this.deaths.slice(this.timeFrame === 0 || this.timeFrame >= this.deaths.length - 1 ? 0 : this.deaths.length - this.timeFrame, this.deaths.length - 1)
+            data: this.deaths.slice(this.timeFrame === 0 || this.timeFrame >= this.deaths.length - 1 ? 0 : this.deaths.length - this.timeFrame, this.deaths.length)
           }
         ]
       }
@@ -465,14 +465,14 @@ export default {
 
     infectedChart () {
       return {
-        labels: this.dates.slice(this.timeFrame === 0 || this.timeFrame >= this.dates.length - 1 ? 0 : this.dates.length - this.timeFrame, this.dates.length - 1),
+        labels: this.dates.slice(this.timeFrame === 0 || this.timeFrame >= this.dates.length - 1 ? 0 : this.dates.length - this.timeFrame, this.dates.length),
         datasets: [
           {
             id: 'infected',
             label: 'Infected *',
             borderColor: 'rgb(22, 31, 39)',
             backgroundColor: 'rgba(155,89,187,0.3)',
-            data: this.trend.slice(this.timeFrame === 0 || this.timeFrame >= this.trend.length - 1 ? 0 : this.trend.length - this.timeFrame, this.trend.length - 1)
+            data: this.trend.slice(this.timeFrame === 0 || this.timeFrame >= this.trend.length - 1 ? 0 : this.trend.length - this.timeFrame, this.trend.length)
           }
         ]
       }
