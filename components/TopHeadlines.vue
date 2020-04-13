@@ -30,8 +30,10 @@
                   :href="`https://${post.source.name}`"
                   target="_blank"
                   rel="noopener noreferrer"
+                  class="source"
                 >
-                  <p>Source: {{ post.source.name }}</p></a>
+                  Source: {{ post.source.name }}
+                </a>
               </div>
 
               <small>Date: {{ $moment(post.publishedAt).format('LLLL') }}</small>
@@ -144,6 +146,7 @@ small {
   img {
     width: 100%;
     height: 380px;
+    min-height: auto;
     border-radius: 10px;
     object-fit: cover;
 
@@ -152,7 +155,7 @@ small {
     }
   }
 
-  p {
+  a.source {
     background-color: rgba(0, 0, 0, 0.6);
     position: absolute;
     bottom: 2.5%;

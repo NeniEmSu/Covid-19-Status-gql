@@ -565,6 +565,7 @@ export default {
 
   @media screen and (max-width: 986px) {
     grid-template-columns: repeat(3, 1fr);
+    justify-content: center;
     grid-gap: 5px;
   }
 

@@ -1,27 +1,19 @@
 <template>
-  <div class="card">
-    <div class="card-body">
-      <h2 class="card-title">
-        Bar
-      </h2>
-    </div>
+  <div class="card-img-bottom">
+    <canvas id="fooCanvas" count="2" />
 
-    <div class="card-img-bottom">
-      <canvas id="fooCanvas" count="2" />
-
-      <chartjs-bar
-        v-for="(item, index) in types"
-        :key="index"
-        :backgroundcolor="item.bgColor"
-        :beginzero="beginZero"
-        :bind="true"
-        :bordercolor="item.borderColor"
-        :data="item.data"
-        :datalabel="item.dataLabel"
-        :labels="labels"
-        target="fooCanvas"
-      />
-    </div>
+    <chartjs-bar
+      v-for="(item, index) in types"
+      :key="index"
+      :backgroundcolor="item.bgColor"
+      :beginzero="beginZero"
+      :bind="true"
+      :bordercolor="item.borderColor"
+      :data="item.data"
+      :datalabel="item.dataLabel"
+      :labels="labels"
+      target="fooCanvas"
+    />
   </div>
 </template>
 

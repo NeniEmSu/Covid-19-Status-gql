@@ -1,10 +1,20 @@
 <template>
   <div>
     <TheHeader />
-    <transition name="fade" mode="out-in">
+    <transition
+      name="fade"
+      mode="out-in"
+    >
       <nuxt />
     </transition>
-
+    <nuxt-link
+      id="scroll-to-top"
+      to=""
+      class="scroll-to-top hide"
+      @click.native="scrollToTop"
+    >
+      <span />
+    </nuxt-link>
     <TheFooter />
   </div>
 </template>
@@ -16,6 +26,39 @@ export default {
   components: {
     TheHeader,
     TheFooter
+  },
+  data () {
+    return {
+      lastScrollPosition: 0
+    }
+  },
+  mounted () {
+    window.addEventListener('scroll', this.onScroll)
+    this.$nextTick(function () {
+      window.addEventListener('scroll', function () {
+        const scrollRoTopButton = document.getElementById('scroll-to-top')
+        const navClasses = scrollRoTopButton.classList
+        if (document.documentElement.scrollTop <= 500) {
+          if (navClasses.contains('hide') === false) {
+            navClasses.toggle('show')
+            navClasses.toggle('hide')
+            navClasses.toggle('animated')
+          }
+        } else if (navClasses.contains('hide') === true) {
+          navClasses.toggle('show')
+          navClasses.toggle('hide')
+          navClasses.toggle('animated')
+        }
+      })
+    })
+  },
+  beforeDestroy () {
+    window.removeEventListener('scroll', this.onScroll)
+  },
+  methods: {
+    scrollToTop () {
+      window.scrollTo(0, 0)
+    }
   }
 }
 </script>
@@ -112,16 +155,109 @@ h6 {
 a {
   color: rgba(255, 208, 0, 1);
 
-  &:hover{
+  &:hover {
     color: rgba(255, 208, 0, 0.85);
     text-decoration: none;
   }
 }
 
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 1000ms;
 }
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
+}
+
+.scroll-to-top span {
+  position: fixed;
+  bottom: 3%;
+  right: 3%;
+  width: 20px;
+  height: 30px;
+  border: 3px solid rgba(255, 255, 255, 0.28);
+    box-shadow: 0px 8px 25px #4056d4;
+    border-radius: 25px;
+  box-sizing: border-box;
+}
+
+.scroll-to-top span::before {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  content: '';
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  background-color: #fff;
+  border-radius: 100%;
+  -webkit-animation: sdb10 2s infinite;
+  animation: sdb10 2s infinite;
+  box-sizing: border-box;
+}
+
+@keyframes sdb10 {
+  0% {
+    transform: translate(0, 12px);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  80% {
+    transform: translate(0, 0px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes sdb10 {
+  0% {
+    -webkit-transform: translate(0, 12px);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  80% {
+    -webkit-transform: translate(0, 0px);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.hide{
+  display: none;
+}
+
+.show{
+  display: block;
+}
+
+.animated {
+  -webkit-animation-duration: 1s !important;
+  animation-duration: 1s !important;
+  -webkit-animation-fill-mode: both !important;
+  animation-fill-mode: both !important;
+}
+.fadeInDown {
+  -webkit-animation-name: fadeInDown;
+  animation-name: fadeInDown;
+}
+@keyframes #{fadeInDown} {
+  0% {
+    -webkit-transform: translate3d(0, -40px, 0);
+    transform: translate3d(0, -40px, 0);
+  }
+  100% {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    opacity: 1;
+  }
 }
 </style>

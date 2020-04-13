@@ -3,6 +3,12 @@
     <div class="container">
       <h1>Charts</h1>
     </div>
+    <div class="grid">
+      <ChartBar />
+      <!-- <ChartDoughnut />
+        <ChartLine /> -->
+    </div>
+
     <SituationReport />
 
     <div
@@ -38,13 +44,14 @@
 </template>
 
 <script>
-// import ChartBar from '@/components/chart-bar'
+import ChartBar from '@/components/chart-bar'
 // import ChartDoughnut from '@/components/chart-doughnut'
 // import ChartLine from '@/components/chart-line'
 import SituationReport from '~/components/SituationReport'
 
 export default {
   components: {
+    ChartBar,
     SituationReport
   },
 
@@ -73,6 +80,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.grid {
+  display: grid;
+  row-gap: 2rem;
+}
 h1 {
   font-weight: normal;
   font-size: 3.75rem;
