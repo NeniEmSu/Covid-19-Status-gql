@@ -26,6 +26,9 @@
           <p>Critical Cases: {{ result.critical.toLocaleString() }}</p>
           <p>Total Deaths: {{ result.deaths.toLocaleString() }} <span>Today: {{ result.todayDeaths.toLocaleString() }}</span> </p>
           <p>Recoveries: {{ result.recovered.toLocaleString() }}</p>
+          <p>Cases Per One Million: {{ result.casesPerOneMillion.toLocaleString() }}</p>
+          <p>Tests performed: {{ result.tests.toLocaleString() }}</p>
+          <p>Tests Per One Million: {{ result.testsPerOneMillion.toLocaleString() }}</p>
 
           <p>Last Updated {{ $moment(result.updated).format('LLLL') }}</p>
         </div>
@@ -42,9 +45,6 @@ import SituationReport from '~/components/SituationReport'
 
 export default {
   components: {
-    // ChartBar,
-    // ChartDoughnut,
-    // ChartLine
     SituationReport
   },
 
@@ -54,11 +54,7 @@ export default {
       redirect: 'follow'
     }
 
-    const response = await fetch('https://corona.lmao.ninja/countries', requestOptions,
-      JSON.stringify({
-        sort: { _created: 1 },
-        populate: 1
-      }),
+    const response = await fetch('https://corona.lmao.ninja/countries?sort=cases', requestOptions,
       {
         headers: { 'Content-Type': 'application/json' }
       })
