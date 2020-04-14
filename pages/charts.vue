@@ -4,35 +4,51 @@
       <h1>Charts</h1>
     </div>
     <SituationReport />
+    <div v-if="results" class="container">
+      <h2>
+        {{ results.length }} Affected Countries
+      </h2>
+      <p>Sorted By: {{ sortBy }} in {{ sortDesc ? 'Descending' : 'Ascending' }} order. <small>Updated: {{ $moment(lastUpdated[0]).format('LLLL') }}</small></p>
 
-    <div
-      v-if="results"
-      class="container"
-    >
-      <h2>{{ results.length - 1 }} Affected Countries Sorted by Total Cases.</h2>
-      <div class="allResults">
-        <div
-          v-for="result in results"
-          :key="result.countryInfo._id"
-          class="singleResult"
-        >
+      <b-table
+        striped
+        hover
+        dark
+        responsive
+        :fields="fields"
+        :sort-by.sync="sortBy"
+        :sort-desc.sync="sortDesc"
+        sticky-header="600px"
+        :items="items"
+      >
+        <template v-slot:thead-top="">
+          <b-tr>
+            <b-th colspan="3" />
+            <b-th
+              colspan="4"
+              variant="secondary"
+            >
+              Cases
+            </b-th>
+            <b-th
+              variant="primary"
+              colspan="3"
+            >
+              Outcome
+            </b-th>
+            <b-th colspan="2" variant="success">
+              Testing
+            </b-th>
+          </b-tr>
+        </template>
+        <template v-slot:cell(flag)="data">
           <img
-            :src="result.countryInfo.flag"
-            :alt="result.country"
+            class="table-flag"
+            :src="data.item.flag"
+            :alt="data.item.Country"
           >
-          <h3>{{ result.country }}</h3>
-          <p>Confirmed Cases: {{ result.cases.toLocaleString() }} <span>Today: {{ result.todayCases.toLocaleString() }}</span></p>
-          <p>Active Cases: {{ result.active.toLocaleString() }}</p>
-          <p>Critical Cases: {{ result.critical.toLocaleString() }}</p>
-          <p>Total Deaths: {{ result.deaths.toLocaleString() }} <span>Today: {{ result.todayDeaths.toLocaleString() }}</span> </p>
-          <p>Recoveries: {{ result.recovered.toLocaleString() }}</p>
-          <p>Cases Per One Million: {{ result.casesPerOneMillion.toLocaleString() }}</p>
-          <p>Tests performed: {{ result.tests.toLocaleString() }}</p>
-          <p>Tests Per One Million: {{ result.testsPerOneMillion.toLocaleString() }}</p>
-
-          <p>Last Updated {{ $moment(result.updated).format('LLLL') }}</p>
-        </div>
-      </div>
+        </template>
+      </b-table>
     </div>
   </section>
 </template>
@@ -63,7 +79,35 @@ export default {
 
   data () {
     return {
-      results: []
+      results: [],
+      sortBy: 'Total',
+      sortDesc: true,
+      fields: [
+        { key: 'No', sortable: false },
+        { key: 'flag', sortable: false },
+        { key: 'Country', sortable: false },
+        { key: 'Total', sortable: true },
+        { key: 'Today', sortable: true },
+        { key: 'Active', sortable: true },
+        { key: 'critical', sortable: true },
+        { key: 'recovered', sortable: true },
+        { key: 'Deaths', sortable: true },
+        { key: 'todays_Deaths', sortable: true },
+        { key: 'Tested', sortable: true },
+        { key: 'per_One_Million', sortable: true }
+      ]
+    }
+  },
+  computed: {
+    lastUpdated () {
+      return this.results.map((date) => {
+        return date.updated
+      })
+    },
+    items () {
+      return this.results.map((stat, index) => {
+        return { No: index + 1, flag: stat.countryInfo.flag, Country: stat.country, Total: stat.cases, Today: stat.todayCases, Active: stat.active, critical: stat.critical, recovered: stat.recovered, Deaths: stat.deaths, todays_Deaths: stat.todayDeaths, Tested: stat.tests, per_One_Million: stat.testsPerOneMillion }
+      })
     }
   }
 }
@@ -91,47 +135,11 @@ h2 {
 
   margin-bottom: 1.5rem;
 }
-.allResults {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 2rem;
 
-  @media screen and (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media screen and (max-width: 420px) {
-    grid-template-columns: repeat(1, 1fr);
-  }
-
-  img {
-    width: 100%;
-    height: 200px;
-    border-radius: 10px;
-    object-fit: cover;
-    margin-bottom: 1rem;
-
-    @media screen and (max-width: 768px) {
-      height: 160px;
-    }
-  }
-
-    h3 {
-      font-family: "AvenirNext-Bold";
-      font-weight: normal;
-      font-size: 1.6875rem;
-      text-align: left;
-      color: #fffefe;
-    }
-
-    p {
-      font-family: "AvenirNext-Medium";
-      font-weight: normal;
-      font-size: 1.125rem;
-      line-height: 30px;
-      text-align: left;
-      color: #ebedfa;
-      margin-bottom: 24px;
-    }
+.table-flag {
+  width: 40px;
+  height: 20px;
+  border-radius: 1px;
+  object-fit: cover;
 }
 </style>

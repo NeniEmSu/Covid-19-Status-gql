@@ -54,7 +54,7 @@
           </h2>
         </div>
         <h6>{{ $moment(worldwide.updated).format('LLLL') }}</h6>
-        <p>Updates might take a while, as Health Promotion Bureau is verifying data from reliable sources.</p>
+        <p>Updates might take a while due to verification from reliable sources.</p>
       </div>
     </div>
     <div v-if="singleCountry">
@@ -613,7 +613,8 @@ export default {
     justify-content: center;
     text-align: center;
     flex-direction: column;
-    padding: 0 15px;
+
+    width: 240px;
     .heading {
       display: flex;
       justify-content: center;
