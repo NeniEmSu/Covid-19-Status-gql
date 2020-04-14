@@ -29,7 +29,10 @@ export default {
   },
   data () {
     return {
-      lastScrollPosition: 0
+      lastScrollPosition: 0,
+      loaded: false,
+      countryData: [],
+      countryDataTable: []
     }
   },
   mounted () {
@@ -55,6 +58,32 @@ export default {
   beforeDestroy () {
     window.removeEventListener('scroll', this.onScroll)
   },
+  // created () {
+  //   this.countryData = this.$store.getters.reportForCountry(this.country)
+  //   if (!this.countryData.length) {
+  //     this.$store.dispatch('fetchReport')
+  //       .then((res) => {
+  //         const result = this.$store.getters.reportForCountry(this.country)[0]
+  //         this.countryData = result
+  //         this.countryDataTable = [...result[1]]
+  //         this.loaded = true
+  //       })
+  //       // eslint-disable-next-line handle-callback-err
+  //       .catch((error) => { })
+  //   } else {
+  //     this.countryData = this.countryData[0]
+  //     this.countryDataTable = [...this.countryData[1]]
+  //     this.loaded = true
+  //   }
+  // },
+  // created () {
+  //   this.$store.dispatch('fetchReport')
+  //     .then((res) => {
+  //       this.loaded = true
+  //     })
+  //     .catch((error) => {
+  //     })
+  // },
   methods: {
     scrollToTop () {
       window.scrollTo(0, 0)
