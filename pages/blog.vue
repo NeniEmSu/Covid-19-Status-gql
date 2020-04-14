@@ -80,8 +80,9 @@
                     :href="`https://${post.source.name}`"
                     target="_blank"
                     rel="noopener noreferrer"
+                    class="source"
                   >
-                    <p>Source: {{ post.source.name }}</p></a>
+                    Source: {{ post.source.name }}</a>
                 </div>
 
                 <small>Date: {{ $moment(post.publishedAt).format('LLLL') }}</small>

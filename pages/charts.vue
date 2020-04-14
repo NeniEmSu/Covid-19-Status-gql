@@ -3,12 +3,6 @@
     <div class="container">
       <h1>Charts</h1>
     </div>
-    <div class="grid">
-      <ChartBar />
-      <!-- <ChartDoughnut />
-        <ChartLine /> -->
-    </div>
-
     <SituationReport />
 
     <div
@@ -27,10 +21,10 @@
             :alt="result.country"
           >
           <h3>{{ result.country }}</h3>
-          <p>Confirmed Cases: {{ result.cases.toLocaleString() }} <span>Today: {{ result.todayCases.toLocaleString() }}</span></p>
+          <!-- <p>Confirmed Cases: {{ result.cases.toLocaleString() }} <span>Today: {{ result.todayCases.toLocaleString() }}</span></p> -->
           <p>Active Cases: {{ result.active.toLocaleString() }}</p>
           <p>Critical Cases: {{ result.critical.toLocaleString() }}</p>
-          <p>Total Deaths: {{ result.deaths.toLocaleString() }} <span>Today: {{ result.todayDeaths.toLocaleString() }}</span> </p>
+          <!-- <p>Total Deaths: {{ result.deaths.toLocaleString() }} <span>Today: {{ result.todayDeaths.toLocaleString() }}</span> </p> -->
           <p>Recoveries: {{ result.recovered.toLocaleString() }}</p>
           <p>Cases Per One Million: {{ result.casesPerOneMillion.toLocaleString() }}</p>
           <p>Tests performed: {{ result.tests.toLocaleString() }}</p>
@@ -44,14 +38,10 @@
 </template>
 
 <script>
-import ChartBar from '@/components/chart-bar'
-// import ChartDoughnut from '@/components/chart-doughnut'
-// import ChartLine from '@/components/chart-line'
 import SituationReport from '~/components/SituationReport'
 
 export default {
   components: {
-    ChartBar,
     SituationReport
   },
 
