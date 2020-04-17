@@ -5,46 +5,71 @@
   >
     <div class="world-wide">
       <div class="death">
-        <h4 v-if="$fetchState.pending">
-          Fetching data...
-        </h4>
-        <h4 v-else-if="$fetchState.error">
-          Error while fetching data: {{ $fetchState.error.message }}
-        </h4>
-        <h4 v-else>
-          <span v-if="worldwide.deaths !== null">{{ `${worldwide.deaths.toLocaleString()}+` }}</span>
-          <span v-else>{{ `${aggregated[1].deaths.toLocaleString()}+` }}</span>
-        </h4>
-        <p>Deaths Worldwide</p>
+        <b-overlay
+          :show="$fetchState.pending"
+          variant="transparent"
+          opacity="0.5"
+          blur="2px"
+          rounded="sm"
+        >
+          <transition name="fade" mode="out-in">
+            <div v-if="!$fetchState.pending">
+              <h4>
+                <span>{{ `${worldwide.deaths.toLocaleString()}+` }}</span>
+              </h4>
+              <p>Deaths Worldwide</p>
+              <small>{{ `Today ${worldwide.todayDeaths.toLocaleString()}` }}</small>
+            </div>
+            <h4 v-else-if="$fetchState.error">
+              Error while fetching data: {{ $fetchState.error.message }}
+            </h4>
+          </transition>
+        </b-overlay>
       </div>
-      <div class="confirmed">
-        <h4 v-if="$fetchState.pending">
-          Fetching data...
-        </h4>
-        <h4 v-else-if="$fetchState.error">
-          Error while fetching data: {{ $fetchState.error.message }}
-        </h4>
-        <h4 v-else>
-          <span v-if="worldwide.cases !== null">{{ `${worldwide.cases.toLocaleString()}+` }}</span>
-          <span v-else>{{ `${aggregated[1].confirmed.toLocaleString()}+` }}</span>
-        </h4>
 
-        <p>Confirmed Cases</p>
-        <small>Active Cases {{ (worldwide.cases - worldwide.recovered).toLocaleString() }}</small>
+      <div class="confirmed">
+        <b-overlay
+          :show="$fetchState.pending"
+          variant="transparent"
+          opacity="0.5"
+          blur="2px"
+          rounded="sm"
+        >
+          <transition name="fade" mode="out-in">
+            <div v-if="!$fetchState.pending">
+              <h4>
+                <span>{{ `${worldwide.cases.toLocaleString()}+` }}</span>
+              </h4>
+              <p>Confirmed Cases</p>
+              <small> {{ worldwide.active.toLocaleString() }} Active <br>  {{ worldwide.critical.toLocaleString() }} Critical</small>
+            </div>
+            <h4 v-else-if="$fetchState.error">
+              Error while fetching data: {{ $fetchState.error.message }}
+            </h4>
+          </transition>
+        </b-overlay>
       </div>
       <div class="recovered">
-        <h4 v-if="$fetchState.pending">
-          Fetching data...
-        </h4>
-        <h4 v-else-if="$fetchState.error">
-          Error while fetching data: {{ $fetchState.error.message }}
-        </h4>
-        <h4 v-else>
-          <span v-if="worldwide.recovered !== null">{{ `${worldwide.recovered.toLocaleString()}+` }}</span>
-          <span v-else>{{ `${aggregated[1].recovered.toLocaleString()}+` }}</span>
-        </h4>
-        <p>Recoveries</p>
-        <small>{{ `${Math.floor((worldwide.recovered * 100) / worldwide.cases)}% Recovered` }}</small>
+        <b-overlay
+          :show="$fetchState.pending"
+          variant="transparent"
+          opacity="0.5"
+          blur="2px"
+          rounded="sm"
+        >
+          <transition name="fade" mode="out-in">
+            <div v-if="!$fetchState.pending">
+              <h4>
+                <span>{{ `${worldwide.recovered.toLocaleString()}+` }}</span>
+              </h4>
+              <p>Recoveries</p>
+              <small>{{ `${worldwide.tests.toLocaleString()} Tested` }}</small>
+            </div>
+            <h4 v-else-if="$fetchState.error">
+              Error while fetching data: {{ $fetchState.error.message }}
+            </h4>
+          </transition>
+        </b-overlay>
       </div>
       <div class="live-update">
         <div class="heading">
@@ -177,55 +202,53 @@
       </select>
     </div>
 
-    <no-ssr>
-      <div class="charts">
-        <chartjs-line
-          id="confirmed"
-          :backgroundcolor="confirmedChart.datasets[0].backgroundColor"
-          :bordercolor="confirmedChart.datasets[0].borderColor"
-          :beginzero="beginZero"
-          :bind="true"
-          :responsive="true"
-          :font-color="confirmedChart.datasets[0].borderColor"
-          :data="confirmedChart.datasets[0].data"
-          :datalabel="confirmedChart.datasets[0].label"
-          :labels="confirmedChart.labels"
-        />
-        <chartjs-line
-          id="recovered"
-          :backgroundcolor="recoveredChart.datasets[0].backgroundColor"
-          :bordercolor="recoveredChart.datasets[0].borderColor"
-          :beginzero="beginZero"
-          :bind="true"
-          :responsive="true"
-          :data="recoveredChart.datasets[0].data"
-          :datalabel="recoveredChart.datasets[0].label"
-          :labels="recoveredChart.labels"
-        />
-        <chartjs-line
-          id="deaths"
-          :backgroundcolor="deathChart.datasets[0].backgroundColor"
-          :bordercolor="deathChart.datasets[0].borderColor"
-          :beginzero="beginZero"
-          :bind="true"
-          :responsive="true"
-          :data="deathChart.datasets[0].data"
-          :datalabel="deathChart.datasets[0].label"
-          :labels="deathChart.labels"
-        />
-        <chartjs-line
-          id="infected"
-          :backgroundcolor="infectedChart.datasets[0].backgroundColor"
-          :bordercolor="infectedChart.datasets[0].borderColor"
-          :beginzero="beginZero"
-          :bind="true"
-          :responsive="true"
-          :data="infectedChart.datasets[0].data"
-          :datalabel="infectedChart.datasets[0].label"
-          :labels="infectedChart.labels"
-        />
-      </div>
-    </no-ssr>
+    <div class="charts">
+      <chartjs-line
+        id="confirmed"
+        :backgroundcolor="confirmedChart.datasets[0].backgroundColor"
+        :bordercolor="confirmedChart.datasets[0].borderColor"
+        :beginzero="beginZero"
+        :bind="true"
+        :responsive="true"
+        :font-color="confirmedChart.datasets[0].borderColor"
+        :data="confirmedChart.datasets[0].data"
+        :datalabel="confirmedChart.datasets[0].label"
+        :labels="confirmedChart.labels"
+      />
+      <chartjs-line
+        id="recovered"
+        :backgroundcolor="recoveredChart.datasets[0].backgroundColor"
+        :bordercolor="recoveredChart.datasets[0].borderColor"
+        :beginzero="beginZero"
+        :bind="true"
+        :responsive="true"
+        :data="recoveredChart.datasets[0].data"
+        :datalabel="recoveredChart.datasets[0].label"
+        :labels="recoveredChart.labels"
+      />
+      <chartjs-line
+        id="deaths"
+        :backgroundcolor="deathChart.datasets[0].backgroundColor"
+        :bordercolor="deathChart.datasets[0].borderColor"
+        :beginzero="beginZero"
+        :bind="true"
+        :responsive="true"
+        :data="deathChart.datasets[0].data"
+        :datalabel="deathChart.datasets[0].label"
+        :labels="deathChart.labels"
+      />
+      <chartjs-line
+        id="infected"
+        :backgroundcolor="infectedChart.datasets[0].backgroundColor"
+        :bordercolor="infectedChart.datasets[0].borderColor"
+        :beginzero="beginZero"
+        :bind="true"
+        :responsive="true"
+        :data="infectedChart.datasets[0].data"
+        :datalabel="infectedChart.datasets[0].label"
+        :labels="infectedChart.labels"
+      />
+    </div>
   </section>
 </template>
 
@@ -243,32 +266,26 @@ const getInitialLegends = () => {
   return defaults
 }
 
+// eslint-disable-next-line no-unused-vars
+const ukrineData = 'http://coronavirus19.com.ua/ajax/ukraine-stat?_=1586118973182'
+
 export default {
   components: {
     AnimatedNumber
-    // LineChart
   },
 
   async fetch () {
-    const response = await fetch('https://corona.lmao.ninja/all')
+    const requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    }
+
+    const response = await fetch('https://corona.lmao.ninja/v2/all', requestOptions)
     const data = await response.json()
     this.worldwide = data
     const location = await fetch('https://freegeoip.app/json/')
     const userLocation = await location.json()
     this.selectedCountry = userLocation.country_name || 'Nigeria'
-  },
-
-  async asyncData ({ app }) {
-    const { data } = await app.$axios.get('https://coronavirus19.com.ua/ajax/ukraine-stat?_=1586118973182',
-      JSON.stringify({
-        sort: { _created: -1 },
-        populate: 1
-      }),
-      {
-        headers: { 'Content-Type': 'application/json' }
-      })
-
-    return { statesInUa: data }
   },
 
   fetchOnServer: false,
@@ -480,25 +497,6 @@ export default {
       }
     },
 
-    aggregated () {
-      const aggregated = {}
-      Object.keys(this.allCountries).forEach((index) => {
-        Object.keys(this.allCountries[index]).forEach((mostRecent) => {
-          if (!aggregated[mostRecent]) {
-            aggregated[mostRecent] = { ...this.allCountries[index][mostRecent] }
-          } else {
-            aggregated[mostRecent].confirmed += this.allCountries[index][mostRecent].confirmed
-            aggregated[mostRecent].deaths += this.allCountries[index][mostRecent].deaths
-            aggregated[mostRecent].recovered += this.allCountries[index][mostRecent].recovered
-          }
-        })
-      })
-
-      return Object.keys(aggregated).map((key) => {
-        return aggregated[key]
-      })
-    },
-
     infectionPercentageDiff () {
       if (this.singleCountry.results.length > 1) {
         const current = this.singleCountry.results[this.singleCountry.results.length - 1].confirmed
@@ -558,42 +556,41 @@ export default {
 }
 
 .world-wide {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  justify-content: center;
+   display: flex;
+  justify-content: space-evenly;
+  column-gap: 20px;
   text-align: center;
+  flex-wrap: wrap;
 
   margin-bottom: 80px;
 
-  @media screen and (max-width: 986px) {
-    grid-template-columns: repeat(3, 1fr);
-    justify-content: center;
-    grid-gap: 5px;
-  }
-
-  @media screen and (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media screen and (max-width: 425px) {
-    grid-template-columns: repeat(1, 1fr);
-  }
-
   .death,
   .confirmed,
-  .recovered {
+  .recovered,
+  .live-update {
     display: flex;
     justify-content: center;
     text-align: center;
     flex-direction: column;
 
-    width: 240px;
+    max-width: 240px;
+    min-width: 240px;
+    width: 100%;
+
+    margin: 10px auto;
+  }
+
+  .death,
+  .confirmed,
+  .recovered {
     height: 180px;
     border-radius: 12px;
     border: 5px solid rgba(255, 255, 255, 0.28);
     box-shadow: 0px 8px 25px #4056d4;
 
-    margin: 10px auto;
+    p{
+      margin-bottom: 10px;
+    }
   }
 
   .death {
@@ -609,12 +606,6 @@ export default {
   }
 
   .live-update {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    flex-direction: column;
-
-    width: 240px;
     .heading {
       display: flex;
       justify-content: center;

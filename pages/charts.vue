@@ -67,7 +67,7 @@ export default {
       redirect: 'follow'
     }
 
-    const response = await fetch('https://corona.lmao.ninja/countries?sort=cases', requestOptions,
+    const response = await fetch('https://corona.lmao.ninja/v2/countries?sort=cases', requestOptions,
       {
         headers: { 'Content-Type': 'application/json' }
       })
@@ -83,18 +83,74 @@ export default {
       sortBy: 'Total',
       sortDesc: true,
       fields: [
-        { key: 'No', sortable: false },
-        { key: 'flag', sortable: false },
+        { key: 'No', stickyColumn: true, isRowHeader: true, sortable: false },
+        { key: 'flag', stickyColumn: true, sortable: false },
         { key: 'Country', sortable: false },
-        { key: 'Total', sortable: true },
-        { key: 'Today', sortable: true },
-        { key: 'Active', sortable: true },
-        { key: 'critical', sortable: true },
-        { key: 'recovered', sortable: true },
-        { key: 'Deaths', sortable: true },
-        { key: 'todays_Deaths', sortable: true },
-        { key: 'Tested', sortable: true },
-        { key: 'per_One_Million', sortable: true }
+        {
+          key: 'Total',
+          sortable: true,
+          formatter: (value) => {
+            return value.toLocaleString()
+          }
+        },
+        {
+          key: 'Today',
+          sortable: true,
+          formatter: (value) => {
+            return value.toLocaleString()
+          }
+        },
+        {
+          key: 'Active',
+          sortable: true,
+          formatter: (value) => {
+            return value.toLocaleString()
+          }
+        },
+        {
+          key: 'critical',
+          sortable: true,
+          formatter: (value) => {
+            return value.toLocaleString()
+          }
+        },
+        {
+          key: 'recovered',
+          sortable: true,
+          formatter: (value) => {
+            return value.toLocaleString()
+          }
+        },
+        {
+          key: 'Deaths',
+          sortable: true,
+          formatter: (value) => {
+            return value.toLocaleString()
+          }
+        },
+        {
+          key: 'todays_Deaths',
+          label: 'Today',
+          sortable: true,
+          formatter: (value) => {
+            return value.toLocaleString()
+          }
+        },
+        {
+          key: 'Tested',
+          sortable: true,
+          formatter: (value) => {
+            return value.toLocaleString()
+          }
+        },
+        {
+          key: 'per_One_Million',
+          label: '/1Million',
+          sortable: true,
+          formatter: (value) => {
+            return value.toLocaleString()
+          }
+        }
       ]
     }
   },
