@@ -50,15 +50,18 @@
         </template>
       </b-table>
     </div>
+    <ukraineCases />
   </section>
 </template>
 
 <script>
 import SituationReport from '~/components/SituationReport'
+import ukraineCases from '~/components/ukraine-cases'
 
 export default {
   components: {
-    SituationReport
+    SituationReport,
+    ukraineCases
   },
 
   async fetch () {

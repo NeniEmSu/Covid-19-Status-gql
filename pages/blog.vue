@@ -76,13 +76,10 @@
                     :alt="post.title"
                     @error="setFallbackImageUrl"
                   >
-                  <a
-                    :href="`https://${post.source.name}`"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <span
                     class="source"
                   >
-                    Source: {{ post.source.name }}</a>
+                    Source: {{ post.source.name }}</span>
                 </div>
 
                 <small>Date: {{ $moment(post.publishedAt).format('LLLL') }}</small>
@@ -133,13 +130,10 @@
                     :alt="post.title"
                     @error="setFallbackImageUrl"
                   >
-                  <a
-                    :href="`https://${post.source.name}`"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <span
                     class="source"
                   >
-                    Source: {{ post.source.name }}</a>
+                    Source: {{ post.source.name }}</span>
                 </div>
 
                 <small>Date: {{ $moment(post.publishedAt).format('LLLL') }}</small>
@@ -190,13 +184,10 @@
                     :alt="post.title"
                     @error="setFallbackImageUrl"
                   >
-                  <a
-                    :href="`https://${post.source.name}`"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <span
                     class="source"
                   >
-                    Source: {{ post.source.name }}</a>
+                    Source: {{ post.source.name }}</span>
                 </div>
 
                 <small>Date: {{ $moment(post.publishedAt).format('LLLL') }}</small>
@@ -247,13 +238,10 @@
                     :alt="post.title"
                     @error="setFallbackImageUrl"
                   >
-                  <a
-                    :href="`https://${post.source.name}`"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <span
                     class="source"
                   >
-                    Source: {{ post.source.name }}</a>
+                    Source: {{ post.source.name }}</span>
                 </div>
 
                 <small>Date: {{ $moment(post.publishedAt).format('LLLL') }}</small>
@@ -418,7 +406,7 @@ small {
     }
   }
 
-  a.source {
+  span.source {
     background-color: rgba(0, 0, 0, 0.6);
     position: absolute;
     bottom: 2.5%;

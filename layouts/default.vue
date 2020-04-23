@@ -101,6 +101,8 @@ html {
   margin: 0;
   padding: 0;
 
+color: #fefefe;
+
   scroll-behavior: smooth;
 }
 
@@ -176,7 +178,8 @@ h3,
 h4,
 h4,
 h5,
-h6 {
+h6,
+hr {
   font-family: "Gilroy-ExtraBold", sans-serif;
   color: #fffefe;
 }
