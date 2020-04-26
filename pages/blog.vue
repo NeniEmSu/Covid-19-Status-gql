@@ -72,6 +72,12 @@
               >
                 <div class="image-container">
                   <img
+                    v-if="post.urlToImage === null"
+                    :src="fallbackImageUrl"
+                    :alt="post.title"
+                  >
+                  <img
+                    v-else
                     :src="post.urlToImage"
                     :alt="post.title"
                     @error="setFallbackImageUrl"
@@ -126,6 +132,12 @@
               >
                 <div class="image-container">
                   <img
+                    v-if="post.urlToImage === null"
+                    :src="fallbackImageUrl"
+                    :alt="post.title"
+                  >
+                  <img
+                    v-else
                     :src="post.urlToImage"
                     :alt="post.title"
                     @error="setFallbackImageUrl"
@@ -180,6 +192,12 @@
               >
                 <div class="image-container">
                   <img
+                    v-if="post.urlToImage === null"
+                    :src="fallbackImageUrl"
+                    :alt="post.title"
+                  >
+                  <img
+                    v-else
                     :src="post.urlToImage"
                     :alt="post.title"
                     @error="setFallbackImageUrl"
@@ -234,6 +252,12 @@
               >
                 <div class="image-container">
                   <img
+                    v-if="post.urlToImage === null"
+                    :src="fallbackImageUrl"
+                    :alt="post.title"
+                  >
+                  <img
+                    v-else
                     :src="post.urlToImage"
                     :alt="post.title"
                     @error="setFallbackImageUrl"
@@ -304,6 +328,12 @@ export default {
       location2: 'Nigeria',
       location3: 'World',
       location4: 'india'
+    }
+  },
+
+  computed: {
+    fallbackImageUrl () {
+      return require(`~/assets/img/${'covidFallback' + Math.floor(Math.random() * (2 - 1) + 1) + '.jpg'}`)
     }
   },
 

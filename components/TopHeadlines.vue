@@ -22,6 +22,12 @@
             >
               <div class="image-container">
                 <img
+                  v-if="post.urlToImage === null"
+                  :src="fallbackImageUrl"
+                  :alt="post.title"
+                >
+                <img
+                  v-else
                   :src="post.urlToImage"
                   :alt="post.title"
                   @error="setFallbackImageUrl"
@@ -59,14 +65,14 @@
 <script>
 export default {
   async fetch () {
-    const location = await fetch('https://freegeoip.app/json/')
-    const userLocation = await location.json()
-    const availableCountryCodes = ['ae', 'ar', 'at', 'au', 'be', 'bg', 'br', 'ca', 'ch', 'cn', 'co', 'cu', 'cz', 'de', 'eg', 'fr', 'gb', 'gr', 'hk', 'hu', 'id', 'ie', 'il', 'in', 'it', 'jp', 'kr', 'lt', 'lv', 'ma', 'mx', 'my', 'ng', 'nl', 'no', 'nz', 'ph', 'pl', 'pt', 'ro', 'rs', 'ru', 'sa', 'se', 'sg', 'si', 'sk', 'th', 'tr', 'tw', 'ua', 'us', 've', 'za']
-    const apiKey = `https://newsapi.org/v2/top-headlines?country=${availableCountryCodes.includes(userLocation.country_code.toLowerCase()) ? userLocation.country_code.toLowerCase() || 'us' : 'us'}&q=covid&pageSize=4&apiKey=511ae156b57c455cbb56c949021bdb79`
-    // const apiKey = `https://newsapi.org/v2/top-headlines?country=${'us'}&q=covid&pageSize=4&apiKey=511ae156b57c455cbb56c949021bdb79`
+    // const location = await fetch('https://freegeoip.app/json/')
+    // const userLocation = location.json()
+    // const availableCountryCodes = ['ae', 'ar', 'at', 'au', 'be', 'bg', 'br', 'ca', 'ch', 'cn', 'co', 'cu', 'cz', 'de', 'eg', 'fr', 'gb', 'gr', 'hk', 'hu', 'id', 'ie', 'il', 'in', 'it', 'jp', 'kr', 'lt', 'lv', 'ma', 'mx', 'my', 'ng', 'nl', 'no', 'nz', 'ph', 'pl', 'pt', 'ro', 'rs', 'ru', 'sa', 'se', 'sg', 'si', 'sk', 'th', 'tr', 'tw', 'ua', 'us', 've', 'za']
+    // const apiKey = `https://newsapi.org/v2/top-headlines?country=${availableCountryCodes.includes(userLocation.country_code.toLowerCase()) ? userLocation.country_code.toLowerCase() || 'us' : 'us'}&q=covid&pageSize=4&apiKey=511ae156b57c455cbb56c949021bdb79`
+    const apiKey = `https://newsapi.org/v2/top-headlines?country=${'ua'}&q=covid&pageSize=6&apiKey=511ae156b57c455cbb56c949021bdb79`
     const topHeadlines = await fetch(apiKey)
     const postJson = await topHeadlines.json()
-    this.location = userLocation.country_name || 'USA'
+    // this.location = userLocation.country_name || 'USA'
     this.posts = postJson
   },
 
@@ -75,7 +81,13 @@ export default {
   data () {
     return {
       posts: [],
-      location: 'USA'
+      location: 'Ukraine'
+    }
+  },
+
+  computed: {
+    fallbackImageUrl () {
+      return require(`~/assets/img/${'covidFallback' + Math.floor(Math.random() * (2 - 1) + 1) + '.jpg'}`)
     }
   },
 
