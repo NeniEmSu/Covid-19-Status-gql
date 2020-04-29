@@ -283,9 +283,9 @@ export default {
     const response = await fetch('https://corona.lmao.ninja/v2/all', requestOptions)
     const data = await response.json()
     this.worldwide = data
-    // const location = await fetch('https://freegeoip.app/json/')
-    // const userLocation = await location.json()
-    // this.selectedCountry = userLocation.country_name || 'Nigeria'
+    const location = await fetch('https://freegeoip.app/json/')
+    const userLocation = await location.json()
+    this.selectedCountry = userLocation.country_name || 'Nigeria'
   },
 
   fetchOnServer: false,

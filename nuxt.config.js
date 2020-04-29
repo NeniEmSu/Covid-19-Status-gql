@@ -32,7 +32,10 @@ export default {
   buildModules: [
     '@nuxtjs/moment',
     '@nuxtjs/eslint-module',
-    '@nuxtjs/stylelint-module'
+    '@nuxtjs/stylelint-module',
+    ['@nuxtjs/google-analytics', {
+      id: 'UA-153274070-1'
+    }]
   ],
 
   modules: [
