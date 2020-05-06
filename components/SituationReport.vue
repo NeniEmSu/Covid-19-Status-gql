@@ -82,15 +82,15 @@
         <p>Updates might take a while due to verification from reliable sources.</p>
       </div>
     </div>
-    <div v-if="singleCountry">
+    <template v-if="selectedCountryData">
       <h2>
-        COVID-19 Situation Report for {{ singleCountry.name }}<br>
-        <span>{{ singleCountry.mostRecent.date }}</span>
+        COVID-19 Situation Report for {{ selectedCountryData.country }}<br>
+        <span>{{ $moment(selectedCountryData.updated).format('LLLL') }}</span>
       </h2>
       <p>
         <strong>
           <b-progress
-            :value="(singleCountry.mostRecent.recovered * 100) / singleCountry.mostRecent.confirmed"
+            :value="(selectedCountryData.recovered * 100) / selectedCountryData.cases"
             variant="success"
             striped
             :animated="animate"
@@ -100,10 +100,10 @@
           />
         </strong>
       </p>
-    </div>
+    </template>
 
     <div
-      v-if="allCountries"
+      v-if="allCountriesRest"
       class="country-select"
     >
       <select
@@ -117,17 +117,17 @@
           ---
         </option>
         <option
-          v-for="country in allCountries"
-          :key="country.name"
-          :value="country.name"
+          v-for="country in allCountriesRest"
+          :key="country.country"
+          :value="country.country"
         >
-          {{ country.name }}
+          {{ country.country }}
         </option>
       </select>
     </div>
 
     <div
-      v-if="singleCountry"
+      v-if="selectedCountryData"
       class="details"
     >
       <div class="detail yellow">
@@ -136,7 +136,7 @@
         </div>
         <h4>
           <animated-number
-            :value="singleCountry.mostRecent.confirmed"
+            :value="selectedCountryData.cases"
             :format-value="value => Math.floor(value).toLocaleString()"
             :duration="animationSpeed"
           />
@@ -150,14 +150,13 @@
         </div>
         <h4>
           <animated-number
-            :value="`${singleCountry.mostRecent.confirmed - singleCountry.results[singleCountry.results.length - 2].confirmed}`"
+            :value="selectedCountryData.todayCases"
             :format-value="value => Math.floor(value).toLocaleString()"
             :duration="animationSpeed"
             :delay="1000"
           />
         </h4>
         <p>New Cases</p>
-        <small :class="infectionTrendClass">{{ (infectionTrendClass === 'red' ? 'More Cases' : infectionTrendClass === 'green' ? 'Less Cases' : '') }}</small>
       </div>
 
       <div class="detail red">
@@ -166,14 +165,14 @@
         </div>
         <h4>
           <animated-number
-            :value="singleCountry.mostRecent.deaths"
+            :value="selectedCountryData.deaths"
             :format-value="value => Math.floor(value).toLocaleString()"
             :duration="animationSpeed"
             :delay="2000"
           />
         </h4>
         <p>Deaths</p>
-        <small :class="singleCountry.mostRecent.deaths - singleCountry.results[singleCountry.results.length - 2].deaths < 1 ? 'green' : ''">{{ `+ ${singleCountry.mostRecent.deaths - singleCountry.results[singleCountry.results.length - 2].deaths}` }}</small>
+        <!-- <small :class="selectedCountryData.deaths - allCountriesRest.timeline.deaths[allCountriesRest.timeline.deaths.length - 2] < 1 ? 'green' : ''">{{ selectedCountryData.todayDeaths }}</small> -->
       </div>
 
       <div class="detail green">
@@ -182,14 +181,13 @@
         </div>
         <h4>
           <animated-number
-            :value="singleCountry.mostRecent.recovered === null ? singleCountry.results[singleCountry.results.length - 2].recovered : singleCountry.mostRecent.recovered"
+            :value="selectedCountryData.recovered"
             :format-value="value => Math.floor(value).toLocaleString()"
             :duration="animationSpeed"
             :delay="3000"
           />
         </h4>
         <p>Recovered</p>
-        <small>{{ `+ ${singleCountry.mostRecent.recovered === null ? singleCountry.results[singleCountry.results.length - 3].recovered : singleCountry.mostRecent.recovered - singleCountry.results[singleCountry.results.length - 2].recovered}` }}</small>
       </div>
     </div>
 
@@ -251,6 +249,8 @@
     </div>
   </section>
 </template>
+  </section>
+</template>
 
 <script>
 import gql from 'graphql-tag'
@@ -280,12 +280,19 @@ export default {
       redirect: 'follow'
     }
 
-    const response = await fetch('https://corona.lmao.ninja/v2/all', requestOptions)
-    const data = await response.json()
-    this.worldwide = data
+    const worldwideResponse = await fetch('https://corona.lmao.ninja/v2/all', requestOptions)
+    const worldwideData = await worldwideResponse.json()
+    this.worldwide = worldwideData
     const location = await fetch('https://freegeoip.app/json/')
     const userLocation = await location.json()
     this.selectedCountry = userLocation.country_name || 'Nigeria'
+
+    const response = await fetch('https://corona.lmao.ninja/v2/countries?sort=-country', requestOptions,
+      {
+        headers: { 'Content-Type': 'application/json' }
+      })
+    const data = await response.json()
+    this.allCountriesRest = data
   },
 
   fetchOnServer: false,
@@ -301,7 +308,9 @@ export default {
       statesInUa: [],
       animate: true,
       legends: getInitialLegends(),
-      timeFrame: 60
+      timeFrame: 60,
+      selectedCountryData: [],
+      allCountriesRest: []
     }
   },
 
@@ -528,8 +537,8 @@ export default {
   },
 
   watch: {
-    selectedCountry (newSelectedCountry) {
-      localStorage.selectedCountry = newSelectedCountry
+    selectedCountry (val) {
+      this.getSingleCountryData()
     }
   },
 
@@ -537,9 +546,18 @@ export default {
     if (localStorage.selectedCountry) {
       this.selectedCountry = localStorage.selectedCountry
     }
+    this.getSingleCountryData()
   },
 
   methods: {
+    async getSingleCountryData () {
+      try {
+        const data = await this.$axios.$get(`https://disease.sh/v2/countries/${this.selectedCountry}?yesterday=true&strict=true`)
+        this.selectedCountryData = data
+      } catch (err) {
+        console.log(err)
+      }
+    }
 
   }
 }
