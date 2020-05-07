@@ -32,6 +32,7 @@
       <p class="explanation">
         The Virus was first reported in Wuhan, Hubel china on 17 November 2019, and on 11 March 2020,the world health organization (WHO) Declared the outbreak a pandemic.
       </p>
+      <a href="https://biorender.com/covid-vaccine-tracker" target="_blank" rel="noopener noreferrer">Vaccine tracker</a>
     </div>
     <div class="offset-lg-1" />
     <div class="image-section col-lg-7 col-md-7">
