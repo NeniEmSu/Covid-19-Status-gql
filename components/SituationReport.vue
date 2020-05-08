@@ -552,7 +552,7 @@ export default {
   methods: {
     async getSingleCountryData () {
       try {
-        const data = await this.$axios.$get(`https://disease.sh/v2/countries/${this.selectedCountry}?yesterday=true&strict=true`)
+        const data = await this.$axios.$get(`https://disease.sh/v2/countries/${this.selectedCountry}?yesterday=false&strict=true`)
         this.selectedCountryData = data
       } catch (err) {
         console.log(err)
