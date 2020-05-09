@@ -102,7 +102,7 @@ export default {
   computed: {
     items () {
       return this.ukraineCases.map((stat, index) => {
-        return { State_en: stat.label.en, State_uk: stat.label.uk, Total: stat.confirmed, Today: stat.delta_confirmed, Active: stat.existing, recovered: stat.recovered, Rec_Today: stat.delta_recovered, Deaths: stat.deaths, Deaths_Today: stat.delta_recovered, Suspected_cases: stat.suspicion }
+        return { State_en: stat.label.en, State_uk: stat.label.uk, Total: stat.confirmed, Today: stat.delta_confirmed, Active: stat.existing, recovered: stat.recovered, Rec_Today: stat.delta_recovered, Deaths: stat.deaths, Deaths_Today: stat.delta_deaths, Suspected_cases: stat.suspicion }
       })
     }
   }
