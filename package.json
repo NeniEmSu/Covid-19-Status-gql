@@ -24,7 +24,7 @@
     "chart.js": "^2.9.3",
     "hchs-vue-charts": "^1.2.8",
     "normalize-scss": "^7.0.1",
-    "nuxt": "^2.12.2",
+    "nuxt": "^2.16.3",
     "vue": "^2.6.11",
     "vue-scrollto": "^2.18.1",
     "vue-server-renderer": "^2.6.11",
